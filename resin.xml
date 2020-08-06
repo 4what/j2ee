@@ -1,0 +1,80 @@
+<!--
+xmlns:resin=
+	"http://caucho.com/ns/resin/core" (3.x)
+	"urn:java:com.caucho.resin" (4.x)
+-->
+<resin xmlns="http://caucho.com/ns/resin" xmlns:resin="urn:java:com.caucho.resin">
+
+	<!--<dependency-check-interval>-1</dependency-check-interval>-->
+
+	<!--<javac compiler="internal" args="-source 1.x" />-->
+
+	<log name="" level="info" path="stdout:" />
+
+	<cluster-default>
+		<resin:import path="${resin.home}/conf/app-default.xml" />
+
+		<host-default></host-default>
+
+		<web-app-default>
+			<access-log path="${resin.home}/log/${webApp.name}/access.log" rollover-period="1D" />
+			<!--<stderr-log path="${resin.home}/log/${webApp.name}/stderr.log" rollover-period="1D" />-->
+			<!--<stdout-log path="${resin.home}/log/${webApp.name}/stdout.log" rollover-period="1D" />-->
+
+			<servlet servlet-name="directory" servlet-class="com.caucho.servlets.DirectoryServlet">
+				<init enable="true" />
+			</servlet>
+		</web-app-default>
+	</cluster-default>
+
+	<cluster id="">
+		<server-default>
+			<http port="8008" />
+
+			<http port="8443">
+				<jsse-ssl>
+					<key-store-type>jks</key-store-type>
+					<key-store-file>${resin.home}/keys/localhost.keystore</key-store-file>
+					<password>changeit</password>
+				</jsse-ssl>
+			</http>
+
+			<!--<jvm-arg>-Dproperty=value</jvm-arg>-->
+
+			<jvm-arg>-Xmn128m</jvm-arg> <!-- 1/4 * Xmx-->
+			<jvm-arg>-Xms512m</jvm-arg>
+			<jvm-arg>-Xmx512m</jvm-arg>
+			<jvm-arg>-Xss2m</jvm-arg>
+			<jvm-arg>-XX:MaxPermSize=256m</jvm-arg>
+
+			<thread-max>512</thread-max>
+		</server-default>
+
+		<server id="" />
+
+		<database jndi-name="jdbc/ds">
+			<driver type="com.mysql.jdbc.Driver">
+				<url>jdbc:mysql://localhost:3306/db</url>
+				<user>root</user>
+				<password></password>
+			</driver>
+			<max-connections>20</max-connections>
+			<prepared-statement-cache-size>8</prepared-statement-cache-size>
+		</database>
+
+<!--
+		<host id="www.example.com" root-directory="<path>">
+			<web-app id="/" document-directory="ROOT" />
+
+			<web-app url-regexp="/([^/]*)" document-directory="$1" />
+		</host>
+-->
+
+		<host>
+			<!--<web-app id="/" document-directory="/Users/4what/index" />-->
+
+			<web-app id="/j2ee" document-directory="/Users/4what/index/studio/code/Java/j2ee/src/main/webapp" />
+		</host>
+	</cluster>
+
+</resin>

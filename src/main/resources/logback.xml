@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+	<property name="LOG_FILE" value="${webapp.root}/WEB-INF/log/debug" />
+	<property name="LOG_PATTERN" value="%date [%thread] %-5level %logger - %message%n" />
+
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${LOG_PATTERN}</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_FILE}.log</file>
+		<encoder>
+			<pattern>${LOG_PATTERN}</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<!--<maxHistory>30</maxHistory>-->
+		</rollingPolicy>
+	</appender>
+
+	<!--<logger name="com.example" level="DEBUG" />-->
+
+	<root level="WARN">
+		<appender-ref ref="stdout" />
+		<appender-ref ref="file" />
+	</root>
+</configuration>

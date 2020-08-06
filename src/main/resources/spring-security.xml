@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			 xmlns:beans="http://www.springframework.org/schema/beans"
+			 xmlns:c="http://www.springframework.org/schema/c"
+			 xmlns:p="http://www.springframework.org/schema/p"
+			 xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+			 http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<beans:alias name="dataSource" alias="securityDataSource" />
+
+
+	<!--<http pattern="/admin/login.jsp*" security="none" />-->
+
+	<http auto-config="true" access-decision-manager-ref="accessDecisionManager" use-expressions="true">
+		<intercept-url pattern="/admin/login.jsp*" access="permitAll()" requires-channel="any" />
+		<intercept-url pattern="/admin/**" access="hasRole('ROLE_USER')" requires-channel="any" />
+
+		<access-denied-handler error-page="/WEB-INF/jsp/403.jsp" />
+
+		<!--<anonymous username="anonymous" />-->
+
+		<csrf disabled="true" />
+
+		<expression-handler ref="webSecurityExpressionHandler" />
+
+		<form-login
+			login-page="/admin/login.jsp"
+			login-processing-url="/admin/login"
+
+			username-parameter="username"
+			password-parameter="password"
+
+			default-target-url="/admin/index.jsp"
+			authentication-failure-url="/admin/login.jsp?error=1"
+		/>
+
+		<headers disabled="true" />
+
+		<!--<http-basic />-->
+
+		<logout logout-url="/admin/logout" logout-success-url="/admin/login.jsp" />
+
+<!--
+		<port-mappings>
+			<port-mapping http="8090" https="8443" />
+		</port-mappings>
+-->
+
+		<remember-me remember-me-parameter="remember-me" data-source-ref="securityDataSource" />
+
+		<session-management>
+			<concurrency-control max-sessions="1" />
+		</session-management>
+	</http>
+
+	<beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+		<beans:constructor-arg name="decisionVoters">
+			<beans:list>
+				<beans:bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
+				<beans:bean class="org.springframework.security.access.vote.RoleHierarchyVoter"
+							c:roleHierarchy-ref="roleHierarchy"
+				/>
+				<beans:bean class="org.springframework.security.web.access.expression.WebExpressionVoter"
+							p:expressionHandler-ref="webSecurityExpressionHandler"
+				/>
+			</beans:list>
+		</beans:constructor-arg>
+	</beans:bean>
+
+	<beans:bean id="roleHierarchy" class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
+		<beans:property name="hierarchy">
+			<beans:value>
+				ROLE_ADMIN > ROLE_USER
+			</beans:value>
+		</beans:property>
+	</beans:bean>
+
+	<beans:bean id="webSecurityExpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler"
+				p:roleHierarchy-ref="roleHierarchy"
+	/>
+
+
+	<authentication-manager alias="authenticationManager"> <!-- (!) id ? -->
+		<authentication-provider user-service-ref="userDetailsService">
+<!--
+			<user-service>
+				<user name="admin" password="password" authorities="ROLE_ADMIN" />
+			</user-service>
+-->
+
+			<!--<user-service properties="classpath:security.users.properties" />-->
+
+			<!--<jdbc-user-service data-source-ref="securityDataSource" />-->
+
+			<password-encoder hash="sha">
+				<salt-source user-property="username" />
+			</password-encoder>
+		</authentication-provider>
+	</authentication-manager>
+
+	<beans:bean id="userDetailsService" class="org.springframework.security.provisioning.JdbcUserDetailsManager"
+				p:dataSource-ref="securityDataSource"
+				p:enableAuthorities="false"
+				p:enableGroups="true"
+	/>
+
+
+	<global-method-security access-decision-manager-ref="methodSecurityAccessDecisionManager" pre-post-annotations="enabled" secured-annotations="enabled">
+		<expression-handler ref="methodSecurityExpressionHandler" />
+		<!--<protect-pointcut expression="execution(* com.example.controller.admin..*.*(..))" access="ROLE_ADMIN" />-->
+	</global-method-security>
+
+	<beans:bean id="methodSecurityAccessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+		<beans:constructor-arg name="decisionVoters">
+			<beans:list>
+				<beans:bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
+				<beans:bean class="org.springframework.security.access.vote.RoleHierarchyVoter"
+							c:roleHierarchy-ref="roleHierarchy"
+				/>
+				<beans:bean class="org.springframework.security.access.prepost.PreInvocationAuthorizationAdviceVoter">
+					<beans:constructor-arg name="pre">
+						<beans:bean class="org.springframework.security.access.expression.method.ExpressionBasedPreInvocationAdvice"
+									p:expressionHandler-ref="methodSecurityExpressionHandler"
+						/>
+					</beans:constructor-arg>
+				</beans:bean>
+			</beans:list>
+		</beans:constructor-arg>
+	</beans:bean>
+
+	<beans:bean id="methodSecurityExpressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler"
+				p:roleHierarchy-ref="roleHierarchy"
+	/>
+
+</beans:beans>

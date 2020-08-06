@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	<!-- TODO -->
+<!--
+	<settings>
+		<setting name="cacheEnabled" value="true" />
+	</settings>
+-->
+
+	<properties resource="system.properties" />
+
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+
+			<!-- for JUnit -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${sys.jdbc.driver}" />
+				<property name="url" value="${sys.jdbc.url}" />
+				<property name="username" value="${sys.jdbc.username}" />
+				<property name="password" value="${sys.jdbc.password}" />
+			</dataSource>
+
+<!--
+			<dataSource type="JNDI">
+				<property name="initial_context" value="java:comp/env" />
+				<property name="data_source" value="${sys.jndi.name}" />
+			</dataSource>
+-->
+		</environment>
+
+<!--
+		<environment id="test">
+		</environment>
+
+		<environment id="production">
+		</environment>
+-->
+	</environments>
+
+	<mappers>
+		<!--<mapper resource="sample/mybatis/mapper/PojoMapper.xml" />-->
+		<!--<mapper class="sample.mybatis.mapper.PojoMapper" />-->
+
+		<package name="sample.mybatis.mapper" />
+	</mappers>
+
+</configuration>

@@ -1,0 +1,40 @@
+<%--<script type="text/javascript" src="http://www.4what.cn/js/jquery/jquery-1.3.2.min.js"></script>--%>
+<%--<script type="text/javascript" src="http://www.4what.cn/lab/extjs/js/extjs/3.4.1.1/adapter/jquery/ext-jquery-adapter.js"></script>--%>
+
+<link rel="stylesheet" type="text/css" href="http://www.4what.cn/lab/extjs/js/extjs/3.4.1.1/resources/css/ext-all.css" />
+<script type="text/javascript" src="http://www.4what.cn/lab/extjs/js/extjs/3.4.1.1/adapter/ext/ext-base.js"></script>
+<script type="text/javascript" src="http://www.4what.cn/lab/extjs/js/extjs/3.4.1.1/ext-all.js"></script>
+<script type="text/javascript" src="http://www.4what.cn/lab/extjs/js/extjs/3.4.1.1/src/locale/ext-lang-zh_CN.js"></script>
+
+<link rel="stylesheet" type="text/css" href="http://www.4what.cn/lab/extjs/js/extjs/3.4.1.1/examples/ux/css/ux-all.css" />
+<script type="text/javascript" src="http://www.4what.cn/lab/extjs/js/extjs/3.4.1.1/examples/ux/ux-all.js"></script>
+
+<script type="text/javascript" src="http://www.4what.cn/lab/extjs/js/extjs/plugin/managediframe/2.1.5/miframe.js"></script>
+
+<link rel="stylesheet" type="text/css" href="http://www.4what.cn/lab/extjs/css/admin.css" />
+
+<script type="text/javascript" src="http://www.4what.cn/lab/extjs/js/util.extjs.js"></script>
+
+<script type="text/javascript">
+// blank image
+Ext.BLANK_IMAGE_URL = "http://www.4what.cn/lab/extjs/js/extjs/3.4.1.1/resources/images/default/s.gif";
+
+// chart
+Ext.chart.Chart.CHART_URL = "http://www.4what.cn/lab/extjs/js/extjs/3.4.1.1/resources/charts.swf";
+
+// msg
+$ext.msg.alert(/*{
+	timeout: function(o, title, msg) {
+		return !title ? 1000 : false;
+	}
+}*/);
+
+// tab
+$ext.tab.reload("main");
+
+// tip
+Ext.QuickTips.init();
+
+// vtypes
+Ext.apply(Ext.form.VTypes, $ext.vtypes.daterange());
+</script>

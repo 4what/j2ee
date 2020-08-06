@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- @Deprecated -->
+
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+	<session-factory>
+		<mapping resource="sample/hibernate/domain/Pojo.hbm.xml" />
+
+		<!--<mapping class="sample.hibernate.domain.Pojo" />-->
+
+		<!--<property name=""></property>-->
+	</session-factory>
+
+</hibernate-configuration>

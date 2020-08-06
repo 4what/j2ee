@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:c="http://www.springframework.org/schema/c"
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:jee="http://www.springframework.org/schema/jee"
+	   xmlns:task="http://www.springframework.org/schema/task"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:util="http://www.springframework.org/schema/util"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+	   http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+	   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- Spring Data MongoDB -->
+	<import resource="spring-data-mongodb.xml" />
+
+	<!-- Spring Security -->
+	<import resource="spring-security.xml" />
+
+
+	<!-- dateformat -->
+	<bean id="dateFormat" class="java.text.SimpleDateFormat">
+		<constructor-arg value="yyyy-MM-dd HH:mm:ss" />
+	</bean>
+
+
+	<!-- ioc -->
+	<context:annotation-config />
+
+	<context:component-scan base-package="$java" />
+	<context:component-scan base-package="com.example" />
+
+	<context:component-scan base-package="sample" />
+
+
+	<!-- properties -->
+<!--
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="fileEncoding" value="UTF-8" />
+		<property name="locations">
+			<list>
+				<value>classpath:com/example/system.properties</value>
+			</list>
+		</property>
+		<property name="properties">
+			<value>
+				key=value
+			</value>
+		</property>
+	</bean>
+-->
+
+	<context:property-placeholder location="
+		classpath:**/*.properties
+	" />
+
+
+	<!-- aop -->
+<!--
+	<aop:config>
+		<aop:aspect ref="aspect">
+			<aop:pointcut id="pointcut" expression="execution(public void sample.spring.aop.Class.method())" />
+
+			<aop:before method="before" pointcut-ref="pointcut" />
+			<aop:after-returning method="afterReturning" pointcut-ref="pointcut" />
+			<aop:after-throwing method="afterThrowing" pointcut-ref="pointcut" />
+			<aop:after method="after" pointcut-ref="pointcut" />
+			<aop:around method="around" pointcut-ref="pointcut" />
+		</aop:aspect>
+	</aop:config>
+-->
+
+	<aop:aspectj-autoproxy />
+
+
+	<!-- datasource -->
+	<jee:jndi-lookup id="dataSource" jndi-name="${sys.jndi.name}" />
+
+
+	<!-- orm -->
+
+	<!-- JdbcTemplate -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
+		  c:dataSource-ref="dataSource"
+	/>
+
+	<bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate"
+		  c:dataSource-ref="dataSource"
+	/>
+
+	<!-- Hibernate -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+<!--
+		<property name="mappingResources">
+			<list>
+				<value>sample/hibernate/domain/Pojo.hbm.xml</value>
+			</list>
+		</property>
+-->
+<!--
+		<property name="annotatedClasses">
+			<list>
+				<value>sample.hibernate.domain.Pojo</value>
+			</list>
+		</property>
+-->
+		<property name="packagesToScan">
+			<list>
+				<value>sample.hibernate.domain</value>
+				<value>com.example.domain</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<util:properties location="classpath:hibernate.properties" />
+		</property>
+	</bean>
+
+	<!-- @Deprecated -->
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate"
+		  c:sessionFactory-ref="sessionFactory"
+	/>
+
+	<bean id="hibernateTransactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager"
+		  c:sessionFactory-ref="sessionFactory"
+	/>
+
+	<!-- MyBatis -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
+		  p:dataSource-ref="dataSource"
+	/>
+
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"
+		  c:sqlSessionFactory-ref="sqlSessionFactory"
+	/>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
+		  p:basePackage="sample.mybatis.mapper"
+	/>
+
+
+	<!-- tx -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		  c:dataSource-ref="dataSource"
+	/>
+
+	<bean class="org.springframework.transaction.support.TransactionTemplate"
+		  c:transactionManager-ref="transactionManager"
+	/>
+
+	<tx:annotation-driven />
+
+	<tx:advice id="txAdvice">
+		<tx:attributes>
+			<tx:method name="*" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:advisor advice-ref="txAdvice" pointcut="
+			execution(* com.example..*.*(..))
+		" />
+	</aop:config>
+
+
+	<!-- timertask -->
+
+	<!-- TaskScheduler -->
+<!--
+	<task:scheduled-tasks scheduler="scheduledTasks">
+		<task:scheduled ref="taskScheduler" method="run" fixed-delay="1000" />
+		<task:scheduled ref="taskScheduler" method="run" cron="0 0 0 * * ?" />
+	</task:scheduled-tasks>
+
+	<task:scheduler id="scheduledTasks" pool-size="10" />
+-->
+
+	<task:annotation-driven />
+
+	<!-- Quartz -->
+	<bean id="jobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="sample.spring.timertask.quartz.JobDetailBean" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="foo" value="bar" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="jobDetailFactory" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="jobDetailFactoryBean" />
+		<property name="targetMethod" value="run" />
+		<!--<property name="concurrent" value="false" />-->
+	</bean>
+
+	<bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<!--<property name="jobDetail" ref="jobDetail" />-->
+		<property name="jobDetail" ref="jobDetailFactory" />
+		<property name="repeatInterval" value="1000" />
+		<!--<property name="repeatCount" value="0" />-->
+		<!--<property name="startTime" value="#{new java.text.SimpleDateFormat('yyyy-MM-dd HH:mm:ss').parse('1970-01-01 00:00:00')}" />-->
+		<!--<property name="endTime" value="#{new java.text.SimpleDateFormat('yyyy-MM-dd HH:mm:ss').parse('1970-01-01 00:00:00')}" />-->
+	</bean>
+
+	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="jobDetailFactory" />
+		<property name="cronExpression" value="* * * * * ?" /> <!-- Seconds, Minutes, Hours, Day-of-month, Month, Day-of-Week, Year (Optional) -->
+		<!--<property name="startTime" value="#{dateFormat.parse('1970-01-01 00:00:00')}" />-->
+		<!--<property name="endTime" value="#{dateFormat.parse('1970-01-01 00:00:00')}" />-->
+	</bean>
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<!--<ref bean="simpleTrigger" />-->
+				<!--<ref bean="cronTrigger" />-->
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- cache -->
+
+	<!-- Memcached -->
+
+	<!-- whalin -->
+	<bean class="com.whalin.MemCached.MemCachedClient" />
+
+	<bean class="com.whalin.MemCached.SockIOPool" factory-method="getInstance" init-method="initialize" destroy-method="shutDown"
+	      p:servers="${memcached.servers}"
+
+	      p:initConn="${memcached.initConn}"
+	      p:minConn="${memcached.minConn}"
+	      p:maxConn="${memcached.maxConn}"
+	      p:maintSleep="${memcached.maintSleep}"
+	      p:nagle="${memcached.nagle}"
+	      p:socketTO="${memcached.socketTO}"
+	/>
+
+	<!-- Spymemcached -->
+	<bean class="net.spy.memcached.spring.MemcachedClientFactoryBean">
+		<property name="servers" value="${memcached.servers}" />
+
+		<property name="failureMode" value="Redistribute" /> <!-- Redistribute|Cancel|Retry -->
+		<!--<property name="hashAlg" value="KETAMA_HASH" />-->
+		<property name="locatorType" value="CONSISTENT" /> <!-- ARRAY_MOD|CONSISTENT -->
+		<property name="protocol" value="BINARY" /> <!-- TEXT|BINARY -->
+		<property name="opTimeout" value="1000" />
+		<property name="timeoutExceptionThreshold" value="1998" />
+		<property name="transcoder">
+			<bean class="net.spy.memcached.transcoders.SerializingTranscoder">
+				<property name="compressionThreshold" value="1024" />
+			</bean>
+		</property>
+		<property name="useNagleAlgorithm" value="false" />
+	</bean>
+
+	<!-- Redis -->
+
+	<!-- Jedis -->
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig"
+		  p:maxIdle="${redis.maxIdle}"
+		  p:maxTotal="${redis.maxTotal}"
+		  p:minIdle="${redis.minIdle}"
+	/>
+
+	<bean class="redis.clients.jedis.JedisPool" destroy-method="destroy"
+		  c:poolConfig-ref="jedisPoolConfig"
+		  c:host="${redis.host}"
+		  c:port="${redis.port}"
+	/>
+
+	<bean class="redis.clients.jedis.JedisCluster">
+		<constructor-arg name="nodes">
+			<set>
+<!--
+				<bean class="redis.clients.jedis.HostAndPort"
+					  c:host="${redis.cluster.nodes[0].host}"
+					  c:port="${redis.cluster.nodes[0].port}"
+				/>
+				<bean class="redis.clients.jedis.HostAndPort"
+					  c:host="${redis.cluster.nodes[1].host}"
+					  c:port="${redis.cluster.nodes[1].port}"
+				/>
+				<bean class="redis.clients.jedis.HostAndPort"
+					  c:host="${redis.cluster.nodes[2].host}"
+					  c:port="${redis.cluster.nodes[2].port}"
+				/>
+				<bean class="redis.clients.jedis.HostAndPort"
+					  c:host="${redis.cluster.nodes[3].host}"
+					  c:port="${redis.cluster.nodes[3].port}"
+				/>
+				<bean class="redis.clients.jedis.HostAndPort"
+					  c:host="${redis.cluster.nodes[4].host}"
+					  c:port="${redis.cluster.nodes[4].port}"
+				/>
+				<bean class="redis.clients.jedis.HostAndPort"
+					  c:host="${redis.cluster.nodes[5].host}"
+					  c:port="${redis.cluster.nodes[5].port}"
+				/>
+-->
+			</set>
+		</constructor-arg>
+		<constructor-arg name="poolConfig" ref="jedisPoolConfig" />
+	</bean>
+
+	<!-- Spring Data Redis -->
+	<bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+		<!--<constructor-arg name="clusterConfig" ref="redisClusterConfiguration" />-->
+		<constructor-arg name="poolConfig" ref="jedisPoolConfig" />
+
+		<property name="usePool" value="true" />
+
+		<property name="hostName" value="${redis.host}" />
+		<property name="port" value="${redis.port}" />
+	</bean>
+
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
+		  p:connection-factory-ref="jedisConnectionFactory"
+	/>
+
+	<bean class="org.springframework.data.redis.core.StringRedisTemplate"
+		  c:connection-factory-ref="jedisConnectionFactory"
+	/>
+
+	<bean id="redisClusterConfiguration" class="org.springframework.data.redis.connection.RedisClusterConfiguration">
+		<constructor-arg name="clusterNodes" value="${redis.cluster.nodes}" />
+	</bean>
+
+
+	<!-- JSON -->
+
+	<!-- Jackson -->
+	<bean class="com.fasterxml.jackson.databind.ObjectMapper"
+		  p:dateFormat-ref="dateFormat"
+	/>
+
+
+	<!-- mail -->
+
+	<!-- JavaMailSender -->
+	<bean class="org.springframework.mail.javamail.JavaMailSenderImpl"
+	      p:host="${sys.email.host}"
+	      p:port="${sys.email.port}"
+	      p:username="${sys.email.username}"
+	      p:password="${sys.email.password}"
+	      p:defaultEncoding="UTF-8"
+	/>
+
+
+	<!-- i18n-->
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>classpath:i18n/messages</value>
+
+				<value>classpath:org/hibernate/validator/ValidationMessages</value>
+
+				<value>classpath:org/springframework/security/messages</value>
+			</list>
+		</property>
+		<!--<property name="cacheSeconds" value="-1" />-->
+		<property name="defaultEncoding" value="UTF-8" />
+		<!--<property name="useCodeAsDefaultMessage" value="true" />-->
+	</bean>
+
+
+	<!-- profile -->
+	<beans profile="test">
+		<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close"
+			  p:driverClass="${sys.jdbc.driver}"
+			  p:jdbcUrl="${sys.jdbc.url}"
+			  p:user="${sys.jdbc.username}"
+			  p:password="${sys.jdbc.password}"
+		/>
+	</beans>
+
+</beans>

@@ -1,0 +1,705 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.example</groupId>
+	<artifactId>j2ee</artifactId>
+	<version>${revision}</version>
+
+	<packaging>war</packaging>
+
+	<!-- $ mvn package -P <profile>, ... -->
+	<profiles>
+		<profile>
+			<id>dev</id>
+<!--
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+-->
+			<properties>
+				<environment>dev</environment> <!-- ${environment} -->
+			</properties>
+		</profile>
+	</profiles>
+
+	<properties>
+		<revision>0.0.1-SNAPSHOT</revision>
+
+		<!-- maven-compiler-plugin -->
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> <!-- maven-resources-plugin -->
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding> <!-- maven-site-plugin -->
+
+		<variable>value</variable> <!-- ${variable} -->
+	</properties>
+
+	<build>
+		<!--<finalName>j2ee</finalName>-->
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<webappDirectory>src/main/webapp</webappDirectory>
+				</configuration>
+			</plugin>
+
+			<!-- (!) -->
+			<!-- Jetty -->
+			<!-- $ mvn jetty:run [-Djetty.http.port=8080] -->
+<!--
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.4.9.v20180320</version>
+			</plugin>
+-->
+		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</resource>
+		</resources>
+	</build>
+
+	<!-- Nexus -->
+	<!-- $ mvn deploy -->
+<!--
+	<distributionManagement>
+		<repository>
+			<id>maven-4what</id>
+			<url>http://localhost:8081/nexus/content/repositories/maven-4what</url>
+		</repository>
+	</distributionManagement>
+-->
+
+	<repositories>
+		<!-- for SimpleCaptcha -->
+		<repository>
+			<id>Enonic</id>
+			<url>http://repo.enonic.com/public/</url>
+		</repository>
+
+		<!-- Nexus -->
+<!--
+		<repository>
+			<id>maven-4what</id>
+			<url>http://localhost:8081/nexus/content/repositories/maven-4what</url>
+		</repository>
+-->
+	</repositories>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- Spring BOM -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-framework-bom</artifactId>
+				<version>4.3.9.RELEASE</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+
+			<!-- Spring Security BOM -->
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-bom</artifactId>
+				<version>4.2.9.RELEASE</version> <!-- for Spring 4.x -->
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<!-- Servlet -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- JSP -->
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+			<version>2.2.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- JSTL -->
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.1.2</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+			<version>1.1.2</version>
+			<scope>runtime</scope>
+		</dependency>
+
+
+		<!-- JUnit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<!--<scope>test</scope>-->
+		</dependency>
+
+
+		<!-- log -->
+
+		<!-- Commons Logging -->
+<!--
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version></version>
+		</dependency>
+-->
+
+		<!-- SLF4J -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>1.7.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+			<version>1.7.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+			<version>1.7.9</version>
+		</dependency>
+
+		<!-- Logback -->
+		<!-- (!) update --> <!-- TODO: bug? ${webapp.root} -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>1.1.9</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.1.9</version>
+		</dependency>
+
+		<!-- ${webapp.root} --> <!-- (!) Resin -->
+		<dependency>
+			<groupId>org.logback-extensions</groupId>
+			<artifactId>logback-ext-spring</artifactId>
+			<version>0.1.5</version>
+		</dependency>
+
+
+		<!-- db -->
+
+		<!-- MongoDB -->
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>3.9.1</version>
+		</dependency>
+
+		<!-- Spring Data MongoDB -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<version>1.10.9.RELEASE</version> <!-- for Spring 4.x -->
+		</dependency>
+
+		<!-- MySQL -->
+		<!--
+			TODO:
+				Resin:
+					${resin.home}/lib
+						mysql-connector-java-5.1.9.jar
+		-->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.9</version>
+			<scope>runtime</scope>
+		</dependency>
+
+
+		<!-- jdbc -->
+
+		<!-- c3p0 -->
+		<dependency>
+			<groupId>com.mchange</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.2.1</version>
+		</dependency>
+
+
+		<!-- cache -->
+
+		<!-- Memcached -->
+
+		<!-- Memcached Java Client -->
+		<dependency>
+			<groupId>com.whalin</groupId>
+			<artifactId>Memcached-Java-Client</artifactId>
+			<version>3.0.2</version>
+		</dependency>
+
+		<!-- Spymemcached -->
+		<dependency>
+			<groupId>net.spy</groupId>
+			<artifactId>spymemcached</artifactId>
+			<version>2.11.7</version>
+		</dependency>
+
+		<!-- Redis -->
+
+		<!-- Jedis -->
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>2.10.2</version>
+		</dependency>
+
+		<!-- Lettuce -->
+		<dependency>
+			<groupId>biz.paluch.redis</groupId>
+			<artifactId>lettuce</artifactId>
+			<version>4.5.0.Final</version>
+		</dependency>
+
+		<!-- Spring Data Redis -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+			<version>1.8.9.RELEASE</version> <!-- for Spring 4.x -->
+		</dependency>
+
+
+		<!-- orm -->
+
+		<!-- Hibernate -->
+		<!-- (!) update -->
+		<!-- for Tomcat 8.5+ -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>5.1.9.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>5.1.9.Final</version>
+		</dependency>
+
+		<!-- Hibernate Validator (Bean Validation) -->
+		<!--
+			TODO:
+				Resin:
+					${resin.home}/lib
+						validation-api-1.0.0.GA.jar -> validation-api-1.1.0.Final.jar
+		-->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>5.4.3.Final</version>
+		</dependency>
+
+		<!-- MyBatis -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.3.1</version> <!-- (!) update -->
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.2.5</version> <!-- for MyBatis 3.3 -->
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis.caches</groupId>
+			<artifactId>mybatis-memcached</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis.caches</groupId>
+			<artifactId>mybatis-redis</artifactId>
+			<version>1.0.0-beta2</version>
+		</dependency>
+
+
+		<!-- json -->
+
+		<!-- Gson -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.7</version>
+		</dependency>
+
+		<!-- Jackson -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.9.10</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.9.10</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.10</version>
+		</dependency>
+
+		<!-- JsonPath -->
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+
+
+		<!-- jwt -->
+
+		<!-- JJWT -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.9.1</version>
+		</dependency>
+
+
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-instrument</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-instrument-tomcat</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jms</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-messaging</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc-portlet</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-websocket</artifactId>
+		</dependency>
+
+		<!-- Spring Security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-acl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-aspects</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-cas</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-crypto</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-data</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-ldap</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-messaging</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-openid</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-remoting</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+		</dependency>
+
+
+		<!-- Commons -->
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-compress</artifactId>
+			<version>1.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-email</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3.3</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+			<version>3.0</version>
+		</dependency>
+
+		<!-- Dom4j -->
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- HttpClient -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>4.4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>fluent-hc</artifactId>
+			<version>4.4.1</version>
+		</dependency>
+
+		<!-- im4java -->
+		<dependency>
+			<groupId>org.im4java</groupId>
+			<artifactId>im4java</artifactId>
+			<version>1.4.0</version>
+		</dependency>
+
+		<!-- JavaMail -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>javax.mail-api</artifactId>
+			<version>1.5.6</version>
+		</dependency>
+
+		<!-- jsoup -->
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.9.2</version>
+		</dependency>
+
+		<!-- POI -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.17</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.17</version>
+		</dependency>
+
+		<!-- Quartz -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>2.2.3</version>
+		</dependency>
+
+		<!-- SimpleCaptcha -->
+		<dependency>
+			<groupId>nl.captcha</groupId>
+			<artifactId>simplecaptcha</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+
+		<!-- UrlRewriteFilter -->
+		<dependency>
+			<groupId>org.tuckey</groupId>
+			<artifactId>urlrewritefilter</artifactId>
+			<version>4.0.2</version>
+		</dependency>
+
+		<!-- WebSocket -->
+		<dependency>
+			<groupId>javax.websocket</groupId>
+			<artifactId>javax.websocket-api</artifactId>
+			<version>1.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- ZXing -->
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>core</artifactId>
+			<version>3.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>javase</artifactId>
+			<version>3.2.1</version>
+		</dependency>
+
+
+		<!-- ... -->
+
+		<!-- Xerces2 -->
+<!--
+		<dependency>
+			<groupId>xerces</groupId>
+			<artifactId>xercesImpl</artifactId>
+			<version>2.11.0</version>
+			<scope>provided</scope>
+		</dependency>
+-->
+
+
+		<!-- Nexus -->
+<!--
+		<dependency>
+			<groupId>cn.4what</groupId>
+			<artifactId>util-java</artifactId>
+			<version>1.2-20180822</version>
+		</dependency>
+-->
+	</dependencies>
+</project>
