@@ -34,6 +34,7 @@ public class MongoTemplate {
 		pojo.setDate(new Date());
 
 		mongoTemplate.insert(pojo);
+		System.out.println("id: " + pojo.getId());
 	}
 
 	@Test
@@ -41,6 +42,13 @@ public class MongoTemplate {
 		Pojo pojo = mongoTemplate.findById("1", Pojo.class);
 
 		mongoTemplate.remove(pojo);
+	}
+
+
+	@Test
+	public void get() {
+		Pojo pojo = mongoTemplate.findById("1", Pojo.class);
+		System.out.println("pojo: " + pojo);
 	}
 
 	@Test

@@ -21,10 +21,10 @@ import java.util.Date;
 @Repository
 public class Spring {
 	@Autowired
-	private PojoMapper pojoMapper;
+	private SqlSession session;
 
 	@Autowired
-	private SqlSession session;
+	private PojoMapper pojoMapper;
 
 	@Test
 	public void create() {
@@ -34,5 +34,7 @@ public class Spring {
 
 		//session.insert("sample.mybatis.mapper.PojoMapper.create", pojo);
 		pojoMapper.create(pojo);
+
+		System.out.println("id: " + pojo.getId());
 	}
 }

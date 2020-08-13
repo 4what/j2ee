@@ -1,4 +1,4 @@
-package sample.spring.cache;
+package sample.spring.redis;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

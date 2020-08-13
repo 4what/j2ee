@@ -4,17 +4,10 @@
 
 <configuration>
 
-	<!-- TODO -->
-<!--
-	<settings>
-		<setting name="cacheEnabled" value="true" />
-	</settings>
--->
-
 	<properties resource="system.properties" />
 
-	<environments default="development">
-		<environment id="development">
+	<environments default="dev">
+		<environment id="dev">
 			<transactionManager type="JDBC" />
 
 			<!-- for JUnit -->
@@ -37,7 +30,7 @@
 		<environment id="test">
 		</environment>
 
-		<environment id="production">
+		<environment id="prod">
 		</environment>
 -->
 	</environments>

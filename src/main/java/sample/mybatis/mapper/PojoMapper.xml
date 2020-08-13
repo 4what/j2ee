@@ -4,11 +4,6 @@
 
 <mapper namespace="sample.mybatis.mapper.PojoMapper">
 
-	<!-- TODO -->
-	<!--<cache type="org.mybatis.caches.memcached.MemcachedCache" />-->
-	<!--<cache type="org.mybatis.caches.redis.RedisCache" />-->
-
-
 	<select id="count" resultType="long">
 		SELECT COUNT(*) FROM pojo
 	</select>
@@ -32,42 +27,5 @@
 	<update id="update">
 		UPDATE pojo SET date = #{date} WHERE id = #{id}
 	</update>
-
-
-	<!---->
-	<resultMap id="PojoResultMap" type="sample.mybatis.domain.PojoEx">
-		<association property="parent" column="parent_id" select="findParent" />
-		<collection property="children" column="{pojoId=id}" select="findAllChild" />
-	</resultMap>
-
-	<resultMap id="ChildResultMap" type="sample.mybatis.domain.Child">
-		<result property="pojoId" column="pojo_id" />
-	</resultMap>
-
-	<sql id="findSQL">
-		SELECT * FROM
-	</sql>
-
-	<select id="findParent" resultType="sample.mybatis.domain.Parent">
-		<include refid="findSQL" />
-		parent
-		WHERE id = #{id}
-	</select>
-
-	<select id="findAllChild" resultMap="ChildResultMap">
-		<include refid="findSQL" />
-		child
-		WHERE pojo_id = #{pojoId}
-	</select>
-
-	<select id="find" resultMap="PojoResultMap">
-		<include refid="findSQL" />
-		pojo
-		<where>
-			<if test="id > 0">
-				id = #{id}
-			</if>
-		</where>
-	</select>
 
 </mapper>

@@ -61,6 +61,7 @@
 			</plugin>
 -->
 		</plugins>
+
 		<resources>
 			<resource>
 				<directory>src/main/java</directory>
@@ -70,6 +71,12 @@
 				<excludes>
 					<exclude>**/*.java</exclude>
 				</excludes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
 			</resource>
 		</resources>
 	</build>
@@ -340,16 +347,6 @@
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis-spring</artifactId>
 			<version>1.2.5</version> <!-- for MyBatis 3.3 -->
-		</dependency>
-		<dependency>
-			<groupId>org.mybatis.caches</groupId>
-			<artifactId>mybatis-memcached</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.mybatis.caches</groupId>
-			<artifactId>mybatis-redis</artifactId>
-			<version>1.0.0-beta2</version>
 		</dependency>
 
 

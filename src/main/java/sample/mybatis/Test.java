@@ -12,7 +12,6 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 public class Test {
@@ -51,6 +50,7 @@ public class Test {
 				//.insert("sample.mybatis.mapper.PojoMapper.create", pojo);
 				.getMapper(PojoMapper.class).create(pojo)
 			;
+			System.out.println("id: " + pojo.getId());
 
 			session.commit();
 		} finally {
@@ -120,31 +120,6 @@ public class Test {
 			;
 
 			session.commit();
-		} finally {
-			session.close();
-		}
-	}
-
-
-	/**/
-	@org.junit.Test
-	public void find() {
-		SqlSession session = sqlSessionFactory.openSession();
-		try {
-			List<Pojo> list = session
-/*
-				.selectList("sample.mybatis.mapper.PojoMapper.find", new HashMap<String, Object>() {
-					{
-						put("id", 0);
-					}
-				})
-*/
-				.getMapper(PojoMapper.class).find(0)
-			;
-
-			for (Pojo pojo : list) {
-				System.out.println("pojo: " + pojo);
-			}
 		} finally {
 			session.close();
 		}

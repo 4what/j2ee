@@ -4,6 +4,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.WorkbookUtil;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -96,18 +97,18 @@ public class Excel {
 				for (Cell cell : row) {
 					Object value = null;
 
-					switch (cell.getCellType()) {
-						case Cell.CELL_TYPE_BOOLEAN:
+					switch (cell.getCellTypeEnum()) {
+						case BOOLEAN:
 							value = cell.getBooleanCellValue();
 							break;
-						case Cell.CELL_TYPE_NUMERIC:
+						case NUMERIC:
 							if (DateUtil.isCellDateFormatted(cell)) {
 								value = cell.getDateCellValue();
 							} else {
 								value = cell.getNumericCellValue();
 							}
 							break;
-						case Cell.CELL_TYPE_STRING:
+						case STRING:
 							value = cell.getRichStringCellValue().getString();
 							break;
 						default:

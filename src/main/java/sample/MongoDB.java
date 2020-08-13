@@ -38,7 +38,7 @@ public class MongoDB {
 
 		//collection.deleteOne(Filters.eq("key", "value"));
 
-		System.out.println("count: " + collection.count());
+		System.out.println("count: " + collection.countDocuments());
 
 		MongoCursor<Document> cursor = collection.find().iterator();
 		try {
