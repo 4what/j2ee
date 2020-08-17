@@ -111,6 +111,8 @@ Ext.onReady(function() {
 	// submit
 	function _submit() {
 		if (_form.getForm().isValid()) {
+			_form.getForm().el.dom.action = "login"; // TODO: bug? Std
+
 			_form.getForm().submit({
 /*
 				url: "action/do_login.jsp", // 自定义
