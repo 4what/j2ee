@@ -111,7 +111,7 @@ Ext.onReady(function() {
 	// submit
 	function _submit() {
 		if (_form.getForm().isValid()) {
-			_form.getForm().el.dom.action = "login"; // TODO: bug? Std
+			_form.getForm().el.dom.action = _form.url; // TODO: bug? Std
 
 			_form.getForm().submit({
 /*
