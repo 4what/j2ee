@@ -15,29 +15,6 @@ CREATE TABLE pojo (
 	date DATETIME,
 
 	--
-	parent_id INT,
-
-	--
-	PRIMARY KEY (id)
-) ENGINE = InnoDB;
-
-
--- [parent]
-CREATE TABLE parent (
-	id INT AUTO_INCREMENT,
-
-	--
-	PRIMARY KEY (id)
-) ENGINE = InnoDB;
-
-
--- [child]
-CREATE TABLE child (
-	id INT AUTO_INCREMENT,
-
-	pojo_id INT,
-
-	--
 	PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 
