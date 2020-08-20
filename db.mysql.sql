@@ -89,3 +89,21 @@ CREATE TABLE session (
 INSERT INTO admin VALUES (1, 'admin', '', 0, '1970-01-01 00:00:00');
 
 INSERT INTO keygen VALUES ('Admin', 1);
+
+
+--
+CREATE PROCEDURE increment( n INT )
+
+BEGIN
+
+	DECLARE counter INT DEFAULT 0;
+
+	WHILE counter < n DO
+
+		INSERT INTO `pojo` ( `name`, `date` ) VALUES ( CONCAT( 'n', (SELECT LAST_INSERT_ID()) + 1 ), NOW());
+
+		SET counter = counter + 1;
+
+	END WHILE;
+
+END;
