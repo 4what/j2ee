@@ -100,7 +100,7 @@ BEGIN
 
 	WHILE counter < n DO
 
-		INSERT INTO `pojo` ( `name`, `date` ) VALUES ( CONCAT( 'n', (SELECT LAST_INSERT_ID()) + 1 ), NOW());
+		INSERT INTO `pojo` ( `name`, `date` ) VALUES ( CONCAT( 'n', (SELECT LAST_INSERT_ID()) + 1 ), DATE_ADD('1970-01-01 00:00:00', INTERVAL counter SECOND));
 
 		SET counter = counter + 1;
 
