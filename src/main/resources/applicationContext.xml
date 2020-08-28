@@ -374,10 +374,10 @@
 
 	<!-- profile -->
 	<beans profile="test">
-		<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close"
-			  p:driverClass="${sys.jdbc.driver}"
-			  p:jdbcUrl="${sys.jdbc.url}"
-			  p:user="${sys.jdbc.username}"
+		<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close"
+			  p:driverClassName="${sys.jdbc.driver}"
+			  p:url="${sys.jdbc.url}"
+			  p:username="${sys.jdbc.username}"
 			  p:password="${sys.jdbc.password}"
 		/>
 	</beans>
