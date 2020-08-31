@@ -1,9 +1,8 @@
-package sample.mybatis;
+package sample.spring.mybatis;
 
 import sample.mybatis.domain.Pojo;
 import sample.mybatis.mapper.PojoMapper;
 
-import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import org.apache.ibatis.session.SqlSession;
@@ -19,14 +18,14 @@ import java.util.Date;
 @ContextConfiguration(locations = "classpath:applicationContext.xml")
 @ActiveProfiles("test")
 @Repository
-public class Spring {
+public class Test {
 	@Autowired
 	private SqlSession session;
 
 	@Autowired
 	private PojoMapper pojoMapper;
 
-	@Test
+	@org.junit.Test
 	public void create() {
 		Pojo pojo = new Pojo();
 

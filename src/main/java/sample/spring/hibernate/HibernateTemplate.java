@@ -1,4 +1,4 @@
-package sample.spring.dao;
+package sample.spring.hibernate;
 
 import sample.hibernate.domain.Pojo;
 
