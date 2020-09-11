@@ -312,7 +312,7 @@
 	</bean>
 
 	<!-- Spring Data Redis -->
-	<bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+	<bean id="redisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
 		<!--<constructor-arg name="clusterConfig" ref="redisClusterConfiguration" />-->
 		<constructor-arg name="poolConfig" ref="jedisPoolConfig" />
 
@@ -323,15 +323,35 @@
 	</bean>
 
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
-		  p:connection-factory-ref="jedisConnectionFactory"
+		  p:connection-factory-ref="redisConnectionFactory"
 	/>
 
 	<bean class="org.springframework.data.redis.core.StringRedisTemplate"
-		  c:connection-factory-ref="jedisConnectionFactory"
+		  c:connection-factory-ref="redisConnectionFactory"
 	/>
 
-	<bean id="redisClusterConfiguration" class="org.springframework.data.redis.connection.RedisClusterConfiguration">
-		<constructor-arg name="clusterNodes" value="${redis.cluster.nodes}" />
+	<bean id="redisClusterConfiguration" class="org.springframework.data.redis.connection.RedisClusterConfiguration"
+		  c:clusterNodes="${redis.cluster.nodes}"
+	/>
+
+	<!---->
+	<bean id="messageListener" class="org.springframework.data.redis.listener.adapter.MessageListenerAdapter">
+		<constructor-arg>
+			<bean class="sample.spring.redis.DefaultMessageDelegate" />
+		</constructor-arg>
+	</bean>
+
+	<bean id="redisMessageListenerContainer" class="org.springframework.data.redis.listener.RedisMessageListenerContainer">
+		<property name="connectionFactory" ref="redisConnectionFactory" />
+		<property name="messageListeners">
+			<map>
+				<entry key-ref="messageListener">
+					<bean class="org.springframework.data.redis.listener.ChannelTopic">
+						<constructor-arg value="channel" />
+					</bean>
+				</entry>
+			</map>
+		</property>
 	</bean>
 
 
