@@ -357,7 +357,7 @@ public class RedisTemplate {
 
 	@Test
 	public void tx() {
-		String key = "foobar";
+		String key = "tx";
 
 		redisTemplate.opsForValue().set(key, String.valueOf(0));
 

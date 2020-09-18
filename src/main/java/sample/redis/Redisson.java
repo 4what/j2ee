@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.redisson.api.*;
 import org.redisson.api.listener.MessageListener;
 import org.redisson.config.Config;
+import org.redisson.config.ReadMode;
 import org.redisson.transaction.TransactionException;
 
 import java.util.UUID;
@@ -22,7 +23,12 @@ public class Redisson {
 
 		config
 			.useSingleServer().setAddress("redis://localhost:6379")
-			//.useClusterServers().addNodeAddress("redis://localhost:6379")
+
+			//.useMasterSlaveServers().setMasterAddress("redis://localhost:7000").addSlaveAddress("redis://localhost:7001", "redis://localhost:7002").setReadMode(ReadMode.SLAVE)
+
+			//.useSentinelServers().setMasterName("mymaster").addSentinelAddress("redis://localhost:5000", "redis://localhost:5001", "redis://localhost:5002")
+
+			//.useClusterServers().addNodeAddress("redis://localhost:7000", "redis://localhost:7001", "redis://localhost:7002", "redis://localhost:7003", "redis://localhost:7004", "redis://localhost:7005").setReadMode(ReadMode.SLAVE)
 		;
 
 		redisson = org.redisson.Redisson.create(config);
@@ -184,7 +190,7 @@ public class Redisson {
 	 */
 	@Test
 	public void tx() {
-		String key = "foo";
+		String key = "tx";
 
 		RTransaction transaction = redisson.createTransaction(TransactionOptions.defaults());
 

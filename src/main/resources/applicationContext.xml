@@ -266,9 +266,9 @@
 
 	<!-- Jedis -->
 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig"
-		  p:maxIdle="${redis.maxIdle}"
-		  p:maxTotal="${redis.maxTotal}"
-		  p:minIdle="${redis.minIdle}"
+		  p:maxIdle="${jedis.maxIdle}"
+		  p:maxTotal="${jedis.maxTotal}"
+		  p:minIdle="${jedis.minIdle}"
 	/>
 
 	<bean class="redis.clients.jedis.JedisPool" destroy-method="destroy"
@@ -280,32 +280,30 @@
 	<bean class="redis.clients.jedis.JedisCluster">
 		<constructor-arg name="nodes">
 			<set>
-<!--
 				<bean class="redis.clients.jedis.HostAndPort"
-					  c:host="${redis.cluster.nodes[0].host}"
-					  c:port="${redis.cluster.nodes[0].port}"
+					  c:host="${jedis.cluster.nodes[0].host}"
+					  c:port="${jedis.cluster.nodes[0].port}"
 				/>
 				<bean class="redis.clients.jedis.HostAndPort"
-					  c:host="${redis.cluster.nodes[1].host}"
-					  c:port="${redis.cluster.nodes[1].port}"
+					  c:host="${jedis.cluster.nodes[1].host}"
+					  c:port="${jedis.cluster.nodes[1].port}"
 				/>
 				<bean class="redis.clients.jedis.HostAndPort"
-					  c:host="${redis.cluster.nodes[2].host}"
-					  c:port="${redis.cluster.nodes[2].port}"
+					  c:host="${jedis.cluster.nodes[2].host}"
+					  c:port="${jedis.cluster.nodes[2].port}"
 				/>
 				<bean class="redis.clients.jedis.HostAndPort"
-					  c:host="${redis.cluster.nodes[3].host}"
-					  c:port="${redis.cluster.nodes[3].port}"
+					  c:host="${jedis.cluster.nodes[3].host}"
+					  c:port="${jedis.cluster.nodes[3].port}"
 				/>
 				<bean class="redis.clients.jedis.HostAndPort"
-					  c:host="${redis.cluster.nodes[4].host}"
-					  c:port="${redis.cluster.nodes[4].port}"
+					  c:host="${jedis.cluster.nodes[4].host}"
+					  c:port="${jedis.cluster.nodes[4].port}"
 				/>
 				<bean class="redis.clients.jedis.HostAndPort"
-					  c:host="${redis.cluster.nodes[5].host}"
-					  c:port="${redis.cluster.nodes[5].port}"
+					  c:host="${jedis.cluster.nodes[5].host}"
+					  c:port="${jedis.cluster.nodes[5].port}"
 				/>
--->
 			</set>
 		</constructor-arg>
 		<constructor-arg name="poolConfig" ref="jedisPoolConfig" />
@@ -313,14 +311,28 @@
 
 	<!-- Spring Data Redis -->
 	<bean id="redisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-		<!--<constructor-arg name="clusterConfig" ref="redisClusterConfiguration" />-->
 		<constructor-arg name="poolConfig" ref="jedisPoolConfig" />
-
-		<property name="usePool" value="true" />
 
 		<property name="hostName" value="${redis.host}" />
 		<property name="port" value="${redis.port}" />
+
+		<!--<constructor-arg name="sentinelConfig" ref="redisSentinelConfiguration" />-->
+
+		<!--<constructor-arg name="clusterConfig" ref="redisClusterConfiguration" />-->
 	</bean>
+
+<!--
+	<bean id="redisSentinelConfiguration" class="org.springframework.data.redis.connection.RedisSentinelConfiguration"
+		  c:master="mymaster"
+		  c:sentinelHostAndPorts="${redis.sentinel.nodes}"
+	/>
+-->
+
+<!--
+	<bean id="redisClusterConfiguration" class="org.springframework.data.redis.connection.RedisClusterConfiguration"
+		  c:clusterNodes="${redis.cluster.nodes}"
+	/>
+-->
 
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
 		  p:connection-factory-ref="redisConnectionFactory"
@@ -328,10 +340,6 @@
 
 	<bean class="org.springframework.data.redis.core.StringRedisTemplate"
 		  c:connection-factory-ref="redisConnectionFactory"
-	/>
-
-	<bean id="redisClusterConfiguration" class="org.springframework.data.redis.connection.RedisClusterConfiguration"
-		  c:clusterNodes="${redis.cluster.nodes}"
 	/>
 
 	<!---->

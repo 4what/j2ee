@@ -1,24 +1,33 @@
 package sample.redis;
 
-import com.lambdaworks.redis.SetArgs;
 import org.junit.After;
 import org.junit.Test;
 
+import com.lambdaworks.redis.ReadFrom;
 import com.lambdaworks.redis.RedisClient;
+import com.lambdaworks.redis.RedisURI;
+import com.lambdaworks.redis.SetArgs;
 import com.lambdaworks.redis.api.StatefulRedisConnection;
 import com.lambdaworks.redis.api.sync.RedisCommands;
+import com.lambdaworks.redis.cluster.RedisClusterClient;
+import com.lambdaworks.redis.cluster.api.StatefulRedisClusterConnection;
+import com.lambdaworks.redis.cluster.api.sync.RedisAdvancedClusterCommands;
+import com.lambdaworks.redis.codec.StringCodec;
+import com.lambdaworks.redis.masterslave.MasterSlave;
+import com.lambdaworks.redis.masterslave.StatefulRedisMasterSlaveConnection;
 import com.lambdaworks.redis.pubsub.RedisPubSubListener;
 import com.lambdaworks.redis.pubsub.StatefulRedisPubSubConnection;
 import com.lambdaworks.redis.pubsub.api.sync.RedisPubSubCommands;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * TODO: cluster
- */
 public class Lettuce {
-	private RedisClient client = RedisClient.create("redis://localhost:6379");
+	private RedisClient client = RedisClient.create(
+		"redis://localhost:6379"
+		//RedisURI.Builder.redis("localhost", 6379).build()
+	);
 	private StatefulRedisConnection<String, String> connection = client.connect();
 
 	private RedisCommands<String, String> commands = connection.sync();
@@ -147,7 +156,7 @@ public class Lettuce {
 
 	@Test
 	public void tx() {
-		String key = "foobar";
+		String key = "tx";
 
 		commands.set(key, String.valueOf(0));
 
@@ -292,6 +301,63 @@ public class Lettuce {
 	public void destroy() {
 		connection.close();
 
+		client.shutdown();
+	}
+
+
+	public static void main(String[] args) {
+/*
+		// replication
+		List<RedisURI> nodes = Arrays.asList(
+			RedisURI.create("localhost", 7000)
+			, RedisURI.create("localhost", 7001)
+			, RedisURI.create("localhost", 7002)
+		);
+
+		RedisClient client = RedisClient.create();
+
+		StatefulRedisMasterSlaveConnection<String, String> connection = MasterSlave.connect(client, StringCodec.UTF8,
+			//nodes
+			//RedisURI.create("localhost", 7000) // discovery
+
+			RedisURI.create("redis-sentinel://localhost:5000#mymaster") // sentinel
+		);
+		connection.setReadFrom(ReadFrom.SLAVE);
+
+		RedisCommands<String, String> commands = connection.sync();
+
+		commands.set("key", "value");
+		System.out.println(commands.get("key"));
+
+		connection.close();
+		client.shutdown();
+*/
+
+
+		// cluster
+		List<RedisURI> nodes = Arrays.asList(
+			RedisURI.create("localhost", 7000)
+			, RedisURI.create("localhost", 7001)
+			, RedisURI.create("localhost", 7002)
+			, RedisURI.create("localhost", 7003)
+			, RedisURI.create("localhost", 7004)
+			, RedisURI.create("localhost", 7005)
+		);
+
+		RedisClusterClient client = RedisClusterClient.create(
+			//nodes
+			"redis://localhost:7000" // discovery
+		);
+
+		StatefulRedisClusterConnection<String, String> connection = client.connect();
+		connection.setReadFrom(ReadFrom.SLAVE);
+
+		RedisAdvancedClusterCommands<String, String> commands = connection.sync();
+
+		commands.set("key", "value");
+		System.out.println(commands.get("key"));
+
+		connection.close();
 		client.shutdown();
 	}
 }

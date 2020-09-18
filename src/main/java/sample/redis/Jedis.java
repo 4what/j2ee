@@ -5,8 +5,7 @@ import org.junit.Test;
 
 import redis.clients.jedis.*;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class Jedis {
 	private JedisPool jedisPool = new JedisPool(new JedisPoolConfig(), "localhost", 6379);
@@ -136,7 +135,7 @@ public class Jedis {
 
 	@Test
 	public void tx() {
-		String key = "foobar";
+		String key = "tx";
 
 		jedis.set(key, String.valueOf(0));
 
@@ -235,43 +234,6 @@ public class Jedis {
 		jedis.subscribe(new PubSubListener(), "channel");
 	}
 
-	@Test
-	public void flush() {
-		jedis.flushAll();
-	}
-
-	@After
-	public void destroy() {
-		if (jedis != null) {
-			jedis.close();
-		}
-
-		jedisPool.close();
-	}
-
-
-	public static void main(String[] args) {
-		//redis.clients.jedis.Jedis jedis = new redis.clients.jedis.Jedis("localhost", 6379); // (!) thread safe
-
-
-/*
-		// cluster
-		Set<HostAndPort> nodes = new HashSet<>();
-		nodes.add(new HostAndPort("localhost", 7000));
-		nodes.add(new HostAndPort("localhost", 7001));
-		nodes.add(new HostAndPort("localhost", 7002));
-		nodes.add(new HostAndPort("localhost", 7003));
-		nodes.add(new HostAndPort("localhost", 7004));
-		nodes.add(new HostAndPort("localhost", 7005));
-
-		JedisCluster jedisCluster = new JedisCluster(nodes);
-
-		jedisCluster.set("key", "value");
-		System.out.println(jedisCluster.get("key"));
-*/
-	}
-
-
 	class PubSubListener extends JedisPubSub {
 		@Override
 		public void onMessage(String channel, String message) {
@@ -298,5 +260,78 @@ public class Jedis {
 		@Override
 		public void onPUnsubscribe(String pattern, int subscribedChannels) {
 		}
+	}
+
+	@Test
+	public void flush() {
+		jedis.flushAll();
+	}
+
+	@After
+	public void destroy() {
+		if (jedis != null) {
+			jedis.close();
+		}
+
+		jedisPool.close();
+	}
+
+
+	public static void main(String[] args) {
+/*
+		// (!) thread safe
+		redis.clients.jedis.Jedis jedis = new redis.clients.jedis.Jedis("localhost", 6379);
+*/
+
+
+/*
+		// shard
+		List<JedisShardInfo> shards = new ArrayList<>();
+		shards.add(new JedisShardInfo("localhost", 7000));
+		shards.add(new JedisShardInfo("localhost", 7001));
+		shards.add(new JedisShardInfo("localhost", 7002));
+
+		ShardedJedisPool pool = new ShardedJedisPool(new JedisPoolConfig(), shards);
+		ShardedJedis jedis = pool.getResource();
+
+		jedis.set("key", "value");
+		System.out.println(jedis.get("key"));
+
+		jedis.close();
+		pool.close();
+*/
+
+
+/*
+		// sentinel
+		Set<String> sentinels = new HashSet<>();
+		sentinels.add("localhost:5000");
+		sentinels.add("localhost:5001");
+		sentinels.add("localhost:5002");
+
+		JedisSentinelPool pool = new JedisSentinelPool("mymaster", sentinels);
+		redis.clients.jedis.Jedis jedis = pool.getResource();
+
+		jedis.set("key", "value");
+		System.out.println(jedis.get("key"));
+
+		jedis.close();
+		pool.close();
+*/
+
+
+		// cluster
+		Set<HostAndPort> nodes = new HashSet<>();
+		nodes.add(new HostAndPort("localhost", 7000));
+		nodes.add(new HostAndPort("localhost", 7001));
+		nodes.add(new HostAndPort("localhost", 7002));
+		nodes.add(new HostAndPort("localhost", 7003));
+		nodes.add(new HostAndPort("localhost", 7004));
+		nodes.add(new HostAndPort("localhost", 7005));
+
+		JedisCluster jedisCluster = new JedisCluster(nodes);
+
+		jedisCluster.set("key", "value");
+		System.out.println(jedisCluster.get("key"));
 	}
 }
