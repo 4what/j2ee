@@ -307,7 +307,7 @@ public class Lettuce {
 
 	public static void main(String[] args) {
 /*
-		// replication
+		// replication | sentinel
 		List<RedisURI> nodes = Arrays.asList(
 			RedisURI.create("localhost", 7000)
 			, RedisURI.create("localhost", 7001)

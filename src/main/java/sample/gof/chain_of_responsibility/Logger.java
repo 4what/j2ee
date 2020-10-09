@@ -5,19 +5,20 @@ public abstract class Logger {
 	public static int DEBUG = 7;
 
 	protected int level;
-
 	private Logger next;
 
-	public Logger setNext(Logger next) {
-		this.next = next;
+	public Logger setNext(Logger logger) {
+		this.next = logger;
 		return this;
 	}
 
 	public void message(String msg, int level) {
-		if (this.level <= level) {
+		if (level <= this.level) {
 			write(msg);
-		} else if (next != null) {
-			next.message(msg, level);
+
+			if (next != null) {
+				next.message(msg, level);
+			}
 		}
 	}
 

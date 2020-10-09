@@ -1,12 +1,12 @@
 util.java.jar
 
+webapp.root_IS_UNDEFINED/
+
 src/main/webapp/WEB-INF/classes
 src/main/webapp/WEB-INF/lib
 src/main/webapp/WEB-INF/log
 src/main/webapp/WEB-INF/tmp
 src/main/webapp/WEB-INF/work
-
-webapp.root_IS_UNDEFINED/
 
 target/
 

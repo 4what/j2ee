@@ -26,7 +26,7 @@ public class Redisson {
 
 			//.useMasterSlaveServers().setMasterAddress("redis://localhost:7000").addSlaveAddress("redis://localhost:7001", "redis://localhost:7002").setReadMode(ReadMode.SLAVE)
 
-			//.useSentinelServers().setMasterName("mymaster").addSentinelAddress("redis://localhost:5000", "redis://localhost:5001", "redis://localhost:5002")
+			//.useSentinelServers().setMasterName("mymaster").addSentinelAddress("redis://localhost:5000", "redis://localhost:5001", "redis://localhost:5002").setReadMode(ReadMode.SLAVE)
 
 			//.useClusterServers().addNodeAddress("redis://localhost:7000", "redis://localhost:7001", "redis://localhost:7002", "redis://localhost:7003", "redis://localhost:7004", "redis://localhost:7005").setReadMode(ReadMode.SLAVE)
 		;
