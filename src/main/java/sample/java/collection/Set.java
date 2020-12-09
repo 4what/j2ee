@@ -13,7 +13,7 @@ public class Set {
 		;
 
 		for (int i = 0; i < 10; i++) {
-			set.add(i);
+			set.add("foobar"); // union
 		}
 
 		for (Object o : set) {
