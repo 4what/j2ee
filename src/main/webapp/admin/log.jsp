@@ -187,7 +187,7 @@
 						]
 					}),
 				tbar: [
-/*
+	/*
 					{
 						xtype: "buttongroup",
 						items: [
@@ -342,7 +342,7 @@
 						]
 					},
 					"-",
-*/
+	*/
 					{
 						text: "刷新",
 						xtype: "button",

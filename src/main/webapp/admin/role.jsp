@@ -599,7 +599,7 @@
 
 
 		/* search */
-/*
+	/*
 		var _search = new Ext.Panel({
 			region: "north",
 			title: "",
@@ -644,7 +644,7 @@
 				}
 			]
 		});
-*/
+	*/
 
 
 		/* viewport */

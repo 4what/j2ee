@@ -114,7 +114,7 @@
 				_form.getForm().el.dom.action = _form.url; // TODO: bug? Std
 
 				_form.getForm().submit({
-/*
+	/*
 					url: "action/do_login.jsp", // (自定义)
 					method: "POST",
 					params: {
@@ -143,7 +143,7 @@
 						$ext.failure.form(form, action, msg);
 					},
 					waitMsg: "请稍候……"
-*/
+	*/
 				});
 			}
 		}
