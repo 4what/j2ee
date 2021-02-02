@@ -87,7 +87,7 @@ public class Controller {
 			//required = false
 		)*/ String param,
 
-		// POST
+		/* POST */
 		//@RequestBody String data,
 		//@RequestBody Map<String, String> params, // Content-Type = application/json
 

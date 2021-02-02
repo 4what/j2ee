@@ -22,6 +22,7 @@ public class Excel {
 			//new XSSFWorkbook() // 2007+
 		;
 
+		//
 		// Note that sheet name is Excel must not exceed 31 characters
 		// and must not contain any of the any of the following characters:
 		// 0x0000
@@ -33,16 +34,17 @@ public class Excel {
 		// forward slash (/)
 		// opening square bracket ([)
 		// closing square bracket (])
-
+		//
 		// You can use org.apache.poi.ss.util.WorkbookUtil#createSafeSheetName(String nameProposal)}
 		// for a safe way to create valid names, this utility replaces invalid characters with a space (' ')
+		//
 		Sheet sheet = wb.createSheet(
 			//WorkbookUtil.createSafeSheetName("")
 		);
 		sheet.createFreezePane(0, 1);
 		sheet.setDefaultColumnWidth(20);
 
-		// thead
+		/* thead */
 		Row row = sheet.createRow(0);
 		row.setHeightInPoints(20);
 
@@ -141,7 +143,7 @@ public class Excel {
 
 			Sheet sheet = wb.getSheetAt(0);
 
-			// tbody
+			/* tbody */
 			for (int i = 0; i < 100; i++) {
 				Row row = sheet.createRow(i + 1);
 				row.setHeightInPoints(15);
@@ -171,10 +173,10 @@ public class Excel {
 	public static void main(String[] args) throws InvalidFormatException, IOException {
 		String filename = "workbook.xls";
 
-		// read
+		/* read */
 		//System.out.println(read(new FileInputStream(filename)));
 
-		// write
+		/* write */
 		write(new FileOutputStream(filename), Excel.getWorkbook(new String[]{"ID", "DATE"}));
 	}
 }

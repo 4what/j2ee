@@ -55,7 +55,7 @@ public class AdminController {
 
 		String query = StringUtils.defaultString(request.getParameter("query"));
 		if (StringUtils.isNotBlank(query)) {
-			// 自定义
+			// (自定义)
 			params.put("adminid", query);
 			params.put("username", "%" + query + "%");
 
@@ -92,7 +92,7 @@ public class AdminController {
 		for (Object o : list) {
 			ObjectNode item = mapper.valueToTree(o);
 
-			// 自定义
+			// (自定义)
 			for (String group : jdbcUserDetailsManager.findAllGroups()) {
 				for (String username : jdbcUserDetailsManager.findUsersInGroup(group)) {
 					if (username.equals(((Admin) o).getUsername())) {
@@ -143,14 +143,16 @@ public class AdminController {
 /*
 			Admin admin = genericRepository.get(Admin.class, id);
 
-			// 自定义
+			// (自定义)
 
 			genericRepository.update(admin);
+*/
 
-			// log
+			/* log */
+/*
 			log.setModule(Admin.class.getSimpleName());
 			log.setAction("Update");
-			log.setMessage("id: " + id); // 自定义
+			log.setMessage("id: " + id); // (自定义)
 			log.setCreateDate(new Date());
 			genericRepository.create(log);
 */
@@ -164,14 +166,14 @@ public class AdminController {
 
 				Admin admin = genericRepository.get(Admin.class, adminId);
 
-				// 自定义
+				// (自定义)
 /*
 				admin.setPassword(DigestUtils.sha1Hex(item.get("password").asText()));
 
 				genericRepository.update(admin);
 */
 
-				// security
+				/* security */
 				String password = item.get("password").asText();
 
 				if (StringUtils.isNotBlank(password)) {
@@ -190,17 +192,17 @@ public class AdminController {
 
 				jdbcUserDetailsManager.addUserToGroup(admin.getUsername(), item.get("group").asText());
 
-				// log
+				/* log */
 				log.setModule(Admin.class.getSimpleName());
 				log.setAction("Update");
-				log.setMessage("id: " + adminId); // 自定义
+				log.setMessage("id: " + adminId); // (自定义)
 				log.setCreateDate(new Date());
 				genericRepository.create(log);
 			}
 		} else { // create
 			Admin admin = new Admin();
 
-			// 自定义
+			// (自定义)
 			String username = request.getParameter("username");
 
 			if (genericRepository.count(Admin.class, "WHERE username = ?", username) > 0) {
@@ -214,7 +216,7 @@ public class AdminController {
 
 			int adminId = genericRepository.create(admin);
 
-			// security
+			/* security */
 			if (jdbcUserDetailsManager.userExists(username)) {
 				throw new RuntimeException("重复提交");
 			}
@@ -223,10 +225,10 @@ public class AdminController {
 
 			jdbcUserDetailsManager.addUserToGroup(username, request.getParameter("group"));
 
-			// log
+			/* log */
 			log.setModule(Admin.class.getSimpleName());
 			log.setAction("Create");
-			log.setMessage("id: " + adminId); // 自定义
+			log.setMessage("id: " + adminId); // (自定义)
 			log.setCreateDate(new Date());
 			genericRepository.create(log);
 		}
@@ -254,13 +256,13 @@ public class AdminController {
 
 			genericRepository.delete(admin);
 
+			/* tombstone */
 /*
-			// tombstone
 			admin.setStatus(-1);
 			genericRepository.update(admin);
 */
 
-			// security
+			/* security */
 			for (String group : jdbcUserDetailsManager.findAllGroups()) {
 				for (String username : jdbcUserDetailsManager.findUsersInGroup(group)) {
 					if (username.equals(admin.getUsername())) {
@@ -271,10 +273,10 @@ public class AdminController {
 
 			jdbcUserDetailsManager.deleteUser(admin.getUsername());
 
-			// log
+			/* log */
 			log.setModule(Admin.class.getSimpleName());
 			log.setAction("Delete");
-			log.setMessage("id: " + id); // 自定义
+			log.setMessage("id: " + id); // (自定义)
 			log.setCreateDate(new Date());
 			genericRepository.create(log);
 		}
@@ -308,13 +310,13 @@ public class AdminController {
 		genericRepository.update(admin);
 */
 
-		// security
+		/* security */
 		jdbcUserDetailsManager.changePassword(request.getParameter("oldPassword"), new ShaPasswordEncoder().encodePassword(request.getParameter("password"), admin.getUsername()));
 
-		// log
+		/* log */
 		log.setModule(Admin.class.getSimpleName());
 		log.setAction("Password");
-		log.setMessage("id: " + adminId); // 自定义
+		log.setMessage("id: " + adminId); // (自定义)
 		log.setCreateDate(new Date());
 		genericRepository.create(log);
 

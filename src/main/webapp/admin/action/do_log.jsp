@@ -35,15 +35,15 @@
 
 	ObjectNode result = mapper.createObjectNode();
 
-	// ip
+	/* ip */
 	String ip = Functions.ip(request);
 
-	// log
+	/* log */
 	Log log = new Log();
 	log.setAdminId(_admin.getAdminId());
 	log.setIp(ip);
 
-	// ...
+	/* ... */
 	GenericRepository genericRepository = ctx.getBean(GenericRepository.class);
 
 	TransactionTemplate transactionTemplate = ctx.getBean(TransactionTemplate.class);
@@ -56,7 +56,7 @@
 
 			String query = StringUtils.defaultString(request.getParameter("query"));
 			if (StringUtils.isNotBlank(query)) {
-				// 自定义
+				// (自定义)
 				params.put("module", query);
 
 				params.put("action", query);
@@ -129,7 +129,7 @@
 			for (Object o : list) {
 				ObjectNode item = mapper.valueToTree(o);
 
-				// 自定义
+				// (自定义)
 				String admin_username = null;
 				try {
 					Admin admin = genericRepository.get(Admin.class, item.get("adminId").asInt());

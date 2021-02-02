@@ -22,7 +22,7 @@ public class Jackson {
 
 
 	public static void main(String[] args) throws IOException {
-		// json
+		/* json */
 		ObjectNode objectNode = (ObjectNode) mapper.readTree("{\"name\": \"value\"}");
 		System.out.println("objectNode: " + objectNode);
 
@@ -30,13 +30,13 @@ public class Jackson {
 		System.out.println("arrayNode: " + arrayNode);
 
 
-		// bean
+		/* bean */
 		Bean bean = mapper.readValue("{\"id\": 1, \"date\": \"1970-01-01 00:00:00\"}", Bean.class);
 		System.out.println("bean: " + bean);
 		System.out.println("json: " + mapper.writeValueAsString(bean));
 
 
-		// list
+		/* list */
 		ObjectNode result = mapper.createObjectNode();
 
 		List list = new ArrayList();

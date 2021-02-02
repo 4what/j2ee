@@ -8,7 +8,9 @@
 %>
 
 <html>
-<head><title></title></head>
+<head>
+	<title></title>
+</head>
 <body>
 
 <h2>attribute</h2>
@@ -26,7 +28,7 @@
 
 <h2>cookie</h2>
 <%
-	// set
+	/* set */
 	Cookie cookie = new Cookie("name", "value");
 
 	//cookie.setDomain(".example.com");
@@ -36,7 +38,7 @@
 
 	response.addCookie(cookie);
 
-	// get
+	/* get */
 	Cookie[] cookies = request.getCookies();
 
 	if (cookies != null) {

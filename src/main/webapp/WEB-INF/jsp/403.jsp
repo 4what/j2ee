@@ -5,7 +5,9 @@
 %>
 
 <html>
-<head><title></title></head>
+<head>
+	<title></title>
+</head>
 <body>
 
 <h1>403</h1>

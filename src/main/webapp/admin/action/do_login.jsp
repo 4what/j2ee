@@ -30,7 +30,7 @@
 
 	ObjectNode result = mapper.createObjectNode();
 
-	// ...
+	/* ... */
 	GenericRepository genericRepository = ctx.getBean(GenericRepository.class);
 
 	TransactionTemplate transactionTemplate = ctx.getBean(TransactionTemplate.class);
@@ -43,13 +43,13 @@
 			result.put("msg", "用户名或密码错误");
 
 			for (Admin admin : genericRepository.list(Admin.class, "WHERE username = ? AND password = ?", username, DigestUtils.sha1Hex(password))) {
+				/* session */
 /*
-				// session
 				session.setAttribute("_admin_id", admin.getAdminId());
 */
 
 
-				// cookie
+				/* cookie */
 				for (Session s : genericRepository.list(Session.class, "WHERE adminid = ? ORDER BY createdate DESC", admin.getAdminId())) {
 					genericRepository.delete(s);
 				}

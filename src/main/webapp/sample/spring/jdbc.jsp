@@ -15,11 +15,11 @@
 
 	JdbcTemplate jdbcTemplate = ctx.getBean(JdbcTemplate.class);
 
-	// tx
+	/* tx */
 	PlatformTransactionManager transactionManager = (PlatformTransactionManager) ctx.getBean("transactionManager");
 
+	/* PlatformTransactionManager */
 /*
-	// PlatformTransactionManager
 	DefaultTransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
 
 	TransactionStatus transactionStatus = transactionManager.getTransaction(transactionDefinition);
@@ -41,7 +41,7 @@
 	}
 */
 
-	// TransactionTemplate
+	/* TransactionTemplate */
 	TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
 
 	try {

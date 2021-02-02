@@ -5,7 +5,7 @@
 <%@ page import="java.util.Date" %>
 
 <%
-	// encode
+	/* encode */
 	String content = "中文, " + new Date();
 	int width = 200;
 	int height = 200;

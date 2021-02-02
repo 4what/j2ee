@@ -18,7 +18,7 @@
 
 	SessionFactory sessionFactory = ctx.getBean(SessionFactory.class);
 
-	// tx
+	/* tx */
 	PlatformTransactionManager transactionManager = ctx.getBean(HibernateTransactionManager.class);
 
 	TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);

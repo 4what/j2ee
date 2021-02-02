@@ -8,7 +8,7 @@
 <%@ page import="java.io.File" %>
 
 <%
-	// decode
+	/* decode */
 	String pathname = application.getRealPath("/") + "sample/zxing/qrcode.png";
 
 	Result result = ZXing.decode(ImageIO.read(new File(pathname)));

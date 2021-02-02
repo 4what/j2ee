@@ -39,7 +39,7 @@ public class CommonsFileUpload {
 	public static Map getParams(List<FileItem> items) throws UnsupportedEncodingException {
 		Map result = new HashMap();
 
-		// Process the uploaded items
+		/* Process the uploaded items */
 		for (FileItem o : items) {
 			DiskFileItem item = (DiskFileItem) o;
 
@@ -75,33 +75,33 @@ public class CommonsFileUpload {
 	 * @throws FileUploadException
 	 */
 	public static List<FileItem> parseRequest(HttpServletRequest request) throws FileUploadException {
-		// Check that we have a file upload request
+		/* Check that we have a file upload request */
 		boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 
 		if (isMultipart) {
-			// Create a factory for disk-based file items
+			/* Create a factory for disk-based file items */
 			//FileItemFactory
 			DiskFileItemFactory
 				factory = new DiskFileItemFactory();
 
-			// Set factory constraints
-			// maximum size that will be stored in memory
+			/* Set factory constraints */
+			/* maximum size that will be stored in memory */
 			//factory.setSizeThreshold(10240);
-			// the location for saving data that is larger than getSizeThreshold()
+			/* the location for saving data that is larger than getSizeThreshold() */
 			//factory.setRepository(null);
 
-			// Create a new file upload handler
+			/* Create a new file upload handler */
 			ServletFileUpload upload = new ServletFileUpload(factory);
 
-			// encoding
+			/* encoding */
 			upload.setHeaderEncoding(charset);
 
-			// Set overall request size constraint
+			/* Set overall request size constraint */
 			//upload.setSizeMax(-1);
 
 			//upload.setFileSizeMax(-1);
 
-			// Parse the request
+			/* Parse the request */
 			List<FileItem> items = upload.parseRequest(request);
 
 			return items;

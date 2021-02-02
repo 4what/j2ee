@@ -12,8 +12,8 @@ public class Singleton {
 */
 
 
+	/* lazy initialization */
 /*
-	// lazy initialization
 	private static Singleton instance;
 
 	private Singleton() {}
@@ -27,9 +27,9 @@ public class Singleton {
 */
 
 
+	/* double-checked locking */
+	/* for Java 5+ */
 /*
-	// double-checked locking
-	// for Java 5+
 	private static volatile Singleton instance;
 
 	private Singleton() {}
@@ -47,7 +47,7 @@ public class Singleton {
 */
 
 
-	// initialization-on-demand holder idiom
+	/* initialization-on-demand holder idiom */
 	private Singleton() {}
 
 	public static Singleton getInstance() {

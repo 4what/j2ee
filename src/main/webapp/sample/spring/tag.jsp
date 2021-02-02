@@ -7,7 +7,9 @@
 %>
 
 <html>
-<head><title></title></head>
+<head>
+	<title></title>
+</head>
 <body>
 
 <h2>message</h2>

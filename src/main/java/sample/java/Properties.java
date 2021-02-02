@@ -14,7 +14,7 @@ public class Properties {
 
 
 	public static void main(String[] args) throws IOException {
-		// Properties
+		/* Properties */
 		InputStream input =
 			//new FileInputStream("src/main/resources/system.properties")
 			Properties.class.getResourceAsStream("/system.properties")
@@ -30,10 +30,10 @@ public class Properties {
 		}
 
 
-		// PropertyResourceBundle
+		/* PropertyResourceBundle */
 		ResourceBundle bundle = PropertyResourceBundle.getBundle("system");
 
-		// ISO-8859-1
+		/* ISO-8859-1 */
 		System.out.println("sys.debug: " + bundle.getString("sys.debug"));
 	}
 }

@@ -14,7 +14,7 @@
 	request.setCharacterEncoding("UTF-8");
 
 
-	// for CORS
+	/* for CORS */
 	response.setHeader("Access-Control-Allow-Origin", "*");
 
 
@@ -30,8 +30,8 @@
 	}
 
 
+	/* InputStream */
 /*
-	// InputStream
 	List<InputStream> result = CommonsFileUpload.upload(request, items);
 
 	for (InputStream input : result) {
@@ -62,10 +62,10 @@ window.name = '{' + '<%= data %>' + '}';
 
 <%
 	} else {
-		// for AFNetworking
+		/* for AFNetworking */
 		//response.setContentType("application/json");
 
-		// for ExtJS 3.x
+		/* for ExtJS 3.x */
 		//response.setContentType("text/html");
 %>
 

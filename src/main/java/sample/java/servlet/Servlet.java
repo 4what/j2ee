@@ -18,13 +18,13 @@ public class Servlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 
 
-		// context-param
+		/* context-param */
 		out.println("context-param: " + getServletContext().getInitParameter("context-param-name"));
-		// init-param
+		/* init-param */
 		out.println("init-param: " + getInitParameter("init-param-name"));
 
 
-		// session
+		/* session */
 		HttpSession session = request.getSession();
 		//session.removeAttribute("name");
 		//session.invalidate();
@@ -32,12 +32,12 @@ public class Servlet extends HttpServlet {
 		//session.setAttribute("name", "value");
 
 
-		//
+		/**/
 		//request.setAttribute("name", "value");
 		//request.getRequestDispatcher("/").forward(request, response);
 
 
-		//
+		/**/
 		//response.sendRedirect("/");
 	}
 

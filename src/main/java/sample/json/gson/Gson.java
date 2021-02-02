@@ -31,7 +31,7 @@ public class Gson {
 
 
 	public static void main(String[] args) {
-		// json
+		/* json */
 		JsonObject jsonObject = new JsonParser().parse("{\"name\": \"value\"}").getAsJsonObject();
 		System.out.println("jsonObject: " + jsonObject);
 
@@ -39,13 +39,13 @@ public class Gson {
 		System.out.println("jsonArray: " + jsonArray);
 
 
-		// bean
+		/* bean */
 		Bean bean = gson.fromJson("{\"id\": 1, \"date\": \"1970-01-01 00:00:00\"}", Bean.class);
 		System.out.println("bean: " + bean);
 		System.out.println("json: " + gson.toJson(bean));
 
 
-		// list
+		/* list */
 		JsonObject result = new JsonObject();
 
 		List list = new ArrayList();

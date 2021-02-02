@@ -16,8 +16,8 @@
 		GenericRepository genericRepository = ctx.getBean(GenericRepository.class);
 
 
+		/* session */
 /*
-		// session
 		int adminId = NumberUtils.toInt(String.valueOf(session.getAttribute("_admin_id")));
 
 		if (adminId == 0) {
@@ -30,8 +30,8 @@
 */
 
 
+		/* cookie */
 /*
-		// cookie
 		Cookie cookie = Functions.cookie(request, "_admin_sessionid");
 
 		if (cookie == null) {
@@ -52,7 +52,7 @@
 */
 
 
-		// security
+		/* security */
 		SecurityService securityService = ctx.getBean(SecurityService.class);
 
 		_admin = securityService.getCurrentUser();

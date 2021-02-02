@@ -28,7 +28,7 @@ public class CommonsNet {
 
 			//ftp.setFileType(FTP.BINARY_FILE_TYPE);
 
-			// list
+			/* list */
 			FTPFile[] files = ftp.listFiles("/");
 			for (FTPFile file : files) {
 				System.out.println("file: " + file);
@@ -37,8 +37,8 @@ public class CommonsNet {
 			String remote = "/file.txt";
 			String local = "/file.txt";
 
+			/* download */
 /*
-			// download
 			OutputStream output = new FileOutputStream(local);
 			try {
 				ftp.retrieveFile(remote, output);
@@ -47,8 +47,8 @@ public class CommonsNet {
 			}
 */
 
+			/* upload */
 /*
-			// upload
 			InputStream input = new FileInputStream(local);
 			try {
 				ftp.storeFile(remote, input);

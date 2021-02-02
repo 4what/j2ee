@@ -11,21 +11,21 @@ public class JdbcUtil {
 	 * @return
 	 */
 	public static Connection getConnection() {
-		// url
+		/* url */
 
-		// for MSSQL
+		/* for MSSQL */
 		//String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 		//String url = "jdbc:sqlserver://localhost:1433;databaseName=db";
 		//String username = "sa";
 		//String password = "sa";
 
-		// for MySQL
+		/* for MySQL */
 		String driver = "com.mysql.jdbc.Driver";
 		String url = "jdbc:mysql://localhost:3306/db";
 		String username = "root";
 		String password = "";
 
-		// for JUnit
+		/* for JUnit */
 		try {
 			Class.forName(driver);
 			return DriverManager.getConnection(url, username, password);
@@ -36,8 +36,8 @@ public class JdbcUtil {
 		}
 
 
+		/* jndi */
 /*
-		// jndi
 		String name = "jdbc/ds";
 
 		try {

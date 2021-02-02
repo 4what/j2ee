@@ -16,11 +16,11 @@
 		Scheduler scheduler = ctx.getBean(Scheduler.class);
 
 
-		// delete
+		/* delete */
 		//scheduler.deleteJob("", "DEFAULT");
 
 
-		// start
+		/* start */
 		if (!scheduler.isStarted()) {
 			scheduler.start();
 		}
@@ -29,7 +29,7 @@
 		Task task = ctx.getBean(Task.class);
 
 
-		// jobDetail
+		/* jobDetail */
 		MethodInvokingJobDetailFactoryBean jobDetail = new MethodInvokingJobDetailFactoryBean();
 
 		jobDetail.setName("jobDetail-" + System.currentTimeMillis());
@@ -46,7 +46,7 @@
 		jobDetail.afterPropertiesSet();
 
 
-		// simpleTrigger
+		/* simpleTrigger */
 		SimpleTriggerFactoryBean simpleTrigger = new SimpleTriggerFactoryBean();
 
 		simpleTrigger.setBeanName("simpleTrigger-" + System.currentTimeMillis());
@@ -61,7 +61,7 @@
 		simpleTrigger.afterPropertiesSet();
 
 
-		// cronTrigger
+		/* cronTrigger */
 		CronTriggerFactoryBean cronTrigger = new CronTriggerFactoryBean();
 
 		cronTrigger.setBeanName("cronTrigger-" + System.currentTimeMillis());
@@ -74,7 +74,7 @@
 		cronTrigger.afterPropertiesSet();
 
 
-		//
+		/**/
 		scheduler.scheduleJob(jobDetail.getObject(),
 			//simpleTrigger.getObject()
 			cronTrigger.getObject()

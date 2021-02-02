@@ -36,15 +36,15 @@
 
 	ObjectNode result = mapper.createObjectNode();
 
-	// ip
+	/* ip */
 	String ip = Functions.ip(request);
 
-	// log
+	/* log */
 	Log log = new Log();
 	log.setAdminId(_admin.getAdminId());
 	log.setIp(ip);
 
-	// ...
+	/* ... */
 	GenericRepository genericRepository = ctx.getBean(GenericRepository.class);
 
 	TransactionTemplate transactionTemplate = ctx.getBean(TransactionTemplate.class);

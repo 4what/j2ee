@@ -42,7 +42,7 @@ public class LogController {
 
 		String query = StringUtils.defaultString(request.getParameter("query"));
 		if (StringUtils.isNotBlank(query)) {
-			// 自定义
+			// (自定义)
 			params.put("action", query);
 			params.put("module", query);
 			params.put("detail", "%" + query + "%");
@@ -114,7 +114,7 @@ public class LogController {
 		for (Object o : list) {
 			ObjectNode item = mapper.valueToTree(o);
 
-			// 自定义
+			// (自定义)
 			String admin_username = null;
 			try {
 				Admin admin = genericRepository.get(Admin.class, item.get("adminId").asInt());

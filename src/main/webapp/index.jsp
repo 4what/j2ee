@@ -9,7 +9,9 @@
 <%@ page import="java.util.Map" %>
 
 <html>
-<head><title></title></head>
+<head>
+	<title></title>
+</head>
 <body>
 
 <h2>Runtime.getRuntime().maxMemory() | -Xmx</h2>

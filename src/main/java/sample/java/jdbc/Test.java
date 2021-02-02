@@ -29,8 +29,8 @@ public class Test {
 
 			//connection.setAutoCommit(false);
 
+			/* Statement */
 /*
-			// Statement
 			stmt = connection.createStatement();
 
 			stmt.executeUpdate(
@@ -43,7 +43,7 @@ public class Test {
 			rs = stmt.getGeneratedKeys();
 */
 
-			// PreparedStatement
+			/* PreparedStatement */
 			pstmt = connection.prepareStatement(
 				sql + "(?)",
 				Statement.RETURN_GENERATED_KEYS
@@ -55,7 +55,7 @@ public class Test {
 
 			rs = pstmt.getGeneratedKeys();
 
-			// id
+			/* id */
 			if (rs.next()) {
 				int id = rs.getInt(rs.getRow());
 
@@ -100,13 +100,13 @@ public class Test {
 
 			String sql = "SELECT * FROM pojo";
 
+			/* Statement */
 /*
-			// Statement
 			stmt = connection.createStatement();
 			rs = stmt.executeQuery(sql);
 */
 
-			// PreparedStatement
+			/* PreparedStatement */
 			pstmt = connection.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 

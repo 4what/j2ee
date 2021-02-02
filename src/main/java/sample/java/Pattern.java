@@ -12,13 +12,13 @@ public class Pattern {
 		Matcher matcher = pattern.matcher(input);
 
 
-		// find
+		/* find */
 		while (matcher.find()) {
 			System.out.println("find: " + matcher.group());
 		}
 
 
-		// lookingAt
+		/* lookingAt */
 		matcher.usePattern(java.util.regex.Pattern.compile("-\\d"));
 
 		if (matcher.lookingAt()) {
@@ -26,7 +26,7 @@ public class Pattern {
 		}
 
 
-		// matches
+		/* matches */
 		matcher.usePattern(java.util.regex.Pattern.compile("-\\d+"));
 
 		if (matcher.matches()) {

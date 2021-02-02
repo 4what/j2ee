@@ -22,8 +22,8 @@
 	}
 
 
+	/* cluster */
 /*
-	// cluster
 	JedisCluster jedisCluster = ctx.getBean(JedisCluster.class);
 
 	jedisCluster.set("key", "value");

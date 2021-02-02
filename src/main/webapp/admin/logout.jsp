@@ -10,13 +10,13 @@
 
 
 <%
+	/* session */
 /*
-	// session
 	session.removeAttribute("_admin_id");
 */
 
 
-	// cookie
+	/* cookie */
 	Cookie cookie = Functions.cookie(request, "_admin_sessionid");
 
 	if (cookie == null) {

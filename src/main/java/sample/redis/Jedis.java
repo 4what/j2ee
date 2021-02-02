@@ -278,14 +278,14 @@ public class Jedis {
 
 
 	public static void main(String[] args) {
+		/* (!) thread safe */
 /*
-		// (!) thread safe
 		redis.clients.jedis.Jedis jedis = new redis.clients.jedis.Jedis("localhost", 6379);
 */
 
 
+		/* shard */
 /*
-		// shard
 		List<JedisShardInfo> shards = new ArrayList<>();
 		shards.add(new JedisShardInfo("localhost", 7000));
 		shards.add(new JedisShardInfo("localhost", 7001));
@@ -302,8 +302,8 @@ public class Jedis {
 */
 
 
+		/* sentinel */
 /*
-		// sentinel
 		Set<String> sentinels = new HashSet<>();
 		sentinels.add("localhost:5000");
 		sentinels.add("localhost:5001");
@@ -320,7 +320,7 @@ public class Jedis {
 */
 
 
-		// cluster
+		/* cluster */
 		Set<HostAndPort> nodes = new HashSet<>();
 		nodes.add(new HostAndPort("localhost", 7000));
 		nodes.add(new HostAndPort("localhost", 7001));

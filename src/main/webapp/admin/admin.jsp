@@ -21,18 +21,18 @@
 <script type="text/javascript">
 Ext.onReady(function() {
 
-	// pagesize
-	var _pagesize = 20; // 自定义
+	/* pagesize */
+	var _pagesize = 20; // (自定义)
 
 
-	// jsonstore
+	/* jsonstore */
 	var _jsonstore = new
 		Ext.data.GroupingStore
 		({
 			url:
 				//"action/do_admin.jsp"
 				"account/list"
-			, // 自定义
+			, // (自定义)
 			autoDestroy: true,
 			autoLoad: {
 				params: {
@@ -41,12 +41,12 @@ Ext.onReady(function() {
 			},
 			baseParams: {
 				limit: _pagesize,
-				// 自定义
+				// (自定义)
 				action: "list"
 			},
 			reader: new Ext.data.JsonReader({
 				fields: [
-					// 自定义
+					// (自定义)
 					{name: "adminId"},
 
 					{name: "username"},
@@ -62,26 +62,26 @@ Ext.onReady(function() {
 				totalProperty: "total"
 			}),
 			sortInfo: {
-				// 自定义
+				// (自定义)
 				direction: "DESC",
 				field: "createDate"
 			},
 
-			// for GroupingStore
-			groupField: "", // 自定义
+			/* for GroupingStore */
+			groupField: "", // (自定义)
 
 			listeners: {
 				beforeload: function(store, options) {
 					$ext.store.setBaseParam(
 						store,
-						"[id^='search-']" // 自定义
+						"[id^='search-']" // (自定义)
 					);
 				}
 			}
 		});
 
 
-	// sm
+	/* sm */
 	var _sm = new
 		Ext.grid.CheckboxSelectionModel
 		({
@@ -95,13 +95,13 @@ Ext.onReady(function() {
 					//_grid["btn-update"].setDisabled(count !== 1);
 					_grid["btn-save"].setDisabled(count < 1);
 
-					// 自定义
+					// (自定义)
 				}
 			}
 		});
 
 
-	// grid
+	/* grid */
 	var _grid = new
 		Ext.grid.EditorGridPanel
 		({
@@ -120,7 +120,7 @@ Ext.onReady(function() {
 				({
 					//markDirty: false,
 
-					// for GroupingView
+					/* for GroupingView */
 					groupTextTpl: '{text} ({[values.rs.length]})'
 				}),
 			cm: new
@@ -132,7 +132,7 @@ Ext.onReady(function() {
 					columns: [
 						_sm,
 
-						// 自定义
+						// (自定义)
 						{
 							header: "ID",
 							dataIndex: "adminId",
@@ -168,28 +168,28 @@ Ext.onReady(function() {
 								forceSelection: true,
 								lazyRender: true,
 								listWidth: 260,
-								//queryParam: "", // 自定义
+								//queryParam: "", // (自定义)
 								resizable: true,
 								triggerAction: "all",
 								width: 210,
 
-								// autocomplete
+								/* autocomplete */
 								//minChars: 1,
 
 								store: {
 									url:
 										//"action/do_admin.jsp"
 										"account/listGroup"
-									, // 自定义
+									, // (自定义)
 									autoDestroy: true,
 									autoLoad: true,
 									baseParams: {
-										// 自定义
+										// (自定义)
 										action: "listGroup"
 									},
 									reader: new Ext.data.JsonReader({
 										fields: [
-											// 自定义
+											// (自定义)
 											{name: "value"}
 										],
 										root: "rows",
@@ -253,7 +253,7 @@ Ext.onReady(function() {
 											records = _grid.getSelectionModel().getSelections();
 											Ext.each(records, function(item, index, allItems) {
 												ids.push(item.get(
-													"adminId" // 自定义
+													"adminId" // (自定义)
 												));
 											});
 											_grid.body.mask("请稍候……");
@@ -261,10 +261,10 @@ Ext.onReady(function() {
 												url:
 													//"action/do_admin.jsp"
 													"account/delete"
-												 , // 自定义
+												 , // (自定义)
 												method: "POST",
 												params: {
-													// 自定义
+													// (自定义)
 													action: "delete",
 													id: ids
 												},
@@ -279,7 +279,7 @@ Ext.onReady(function() {
 														_jsonstore.remove(records);
 													} else {
 														switch (result.msg) {
-															// 自定义
+															// (自定义)
 															case "":
 																msg = "";
 																break;
@@ -313,7 +313,7 @@ Ext.onReady(function() {
 									var
 									record = _grid.getSelectionModel().getSelected(),
 									id = record.get(
-										"adminId" // 自定义
+										"adminId" // (自定义)
 									);
 
 									_win.show().setTitle("修改");
@@ -321,7 +321,7 @@ Ext.onReady(function() {
 									_form.getForm().loadRecord(record);
 
 									$ext.combo.load(
-										"[id^='form-combo-']" // 自定义
+										"[id^='form-combo-']" // (自定义)
 									);
 								}
 							}
@@ -348,10 +348,10 @@ Ext.onReady(function() {
 									url:
 										//"action/do_admin.jsp"
 										"account/save"
-									, // 自定义
+									, // (自定义)
 									method: "POST",
 									params: {
-										// 自定义
+										// (自定义)
 										action: "save",
 										data: Ext.util.JSON.encode(data)
 									},
@@ -364,12 +364,12 @@ Ext.onReady(function() {
 										result = Ext.util.JSON.decode(response.responseText);
 										if (result.success) {
 											Ext.Msg.alert("", "操作成功", function(buttonId, text, opt) {
-												// 自定义
+												// (自定义)
 												_jsonstore.reload();
 											});
 										} else {
 											switch (result.msg) {
-												// 自定义
+												// (自定义)
 												case "":
 													msg = "";
 													break;
@@ -407,29 +407,29 @@ Ext.onReady(function() {
 			},
 			listeners: {
 				rowdblclick: function(grid, rowIndex, e) {
-					// 自定义
+					// (自定义)
 					//_grid["btn-update"].fireEvent("click");
 				}
 			}
 		});
 
 
-	// form
+	/* form */
 	var _form = new Ext.form.FormPanel({
 		//autoScroll: true,
 		buttonAlign: "center",
 		frame: true,
-		//height: 600, // 自定义
+		//height: 600, // (自定义)
 		labelAlign: "right",
-		labelWidth: 100, // 自定义
+		labelWidth: 100, // (自定义)
 		padding: "15px 15px 0 15px",
 		waitMsgTarget: true,
 		defaults: {
 			//msgTarget: "under",
-			width: 210 // 自定义
+			width: 210 // (自定义)
 		},
 		items: [
-			// 自定义
+			// (自定义)
 			{
 				fieldLabel: "ID",
 				xtype: "hidden",
@@ -460,28 +460,28 @@ Ext.onReady(function() {
 				forceSelection: true,
 				lazyRender: true,
 				listWidth: 260,
-				//queryParam: "", // 自定义
+				//queryParam: "", // (自定义)
 				resizable: true,
 				triggerAction: "all",
 				width: 210,
 
-				// autocomplete
+				/* autocomplete */
 				//minChars: 1,
 
 				store: {
 					url:
 						//"action/do_admin.jsp"
 						"account/listGroup"
-					, // 自定义
+					, // (自定义)
 					autoDestroy: true,
 					autoLoad: true,
 					baseParams: {
-						// 自定义
+						// (自定义)
 						action: "listGroup"
 					},
 					reader: new Ext.data.JsonReader({
 						fields: [
-							// 自定义
+							// (自定义)
 							{name: "value"}
 						],
 						root: "rows",
@@ -533,28 +533,28 @@ Ext.onReady(function() {
 	});
 
 
-	// reset
+	/* reset */
 	function _reset() {
 		_form.getForm().reset();
 	}
 
 
-	// submit
+	/* submit */
 	function _submit() {
 		if (_form.getForm().isValid()) {
 			_form.getForm().submit({
 				url:
 					//"action/do_admin.jsp"
 					"account/save"
-				, // 自定义
+				, // (自定义)
 				method: "POST",
 				params: {
-					// 自定义
+					// (自定义)
 					action: "save"
 				},
 				success: function(form, action) {
 					Ext.Msg.alert("", "操作成功", function(buttonId, text, opt) {
-						// 自定义
+						// (自定义)
 						_win.hide();
 						_jsonstore.reload();
 					});
@@ -565,7 +565,7 @@ Ext.onReady(function() {
 					result = action.result;
 					if (result) {
 						switch (result.msg) {
-							// 自定义
+							// (自定义)
 							case "":
 								msg = "";
 								break;
@@ -582,18 +582,18 @@ Ext.onReady(function() {
 	}
 
 
-	// window
+	/* window */
 	var _win = new Ext.Window({
 		autoScroll: true,
 		border: false,
 		closeAction: "hide",
 		constrainHeader: true,
-		//height: 600, // 自定义
+		//height: 600, // (自定义)
 		iconCls: "icon-form",
 		maximizable: true,
 		modal: true,
 		plain: true,
-		width: 480, // 自定义
+		width: 480, // (自定义)
 		items: [_form],
 		listeners: {
 			beforeshow: function(cmp) {
@@ -603,12 +603,12 @@ Ext.onReady(function() {
 	});
 
 
-	// search
+	/* search */
 	var _search = new Ext.Panel({
 		region: "north",
 		title: "",
 		frame: true,
-		height: 50, // 50|80|110 // 自定义
+		height: 50, // 50|80|110 // (自定义)
 		layout: {
 			type: "vbox",
 			align: "stretch",
@@ -623,10 +623,10 @@ Ext.onReady(function() {
 			}
 		},
 		items: [
-			// 自定义
+			// (自定义)
 			{
 				items: [
-					// 自定义
+					// (自定义)
 					{
 						id: "search-status",
 						xtype: "combo",
@@ -650,18 +650,18 @@ Ext.onReady(function() {
 	});
 
 
-	// viewport
+	/* viewport */
 	var _viewport = new Ext.Viewport({
 		//autoScroll: true,
 		layout: "border",
 		items: [
-			// 自定义
+			// (自定义)
 			{
 				region: "center",
 				border: false,
 				layout: "border",
 				items: [
-					// 自定义
+					// (自定义)
 					_search,
 					_grid
 				]

@@ -30,40 +30,40 @@ public class JavaMailSender {
 	 * @throws UnsupportedEncodingException
 	 */
 	public void send(String from, String[] to, String subject, String content, String[] attachments) throws MalformedURLException, MessagingException, UnsupportedEncodingException {
-		// SimpleMailMessage
+		/* SimpleMailMessage */
 		//SimpleMailMessage msg = new SimpleMailMessage();
 
+		/* MimeMessagePreparator */
 /*
-		// MimeMessagePreparator
 		MimeMessagePreparator msg = new MimeMessagePreparator() {
 			public void prepare(MimeMessage mimeMessage) throws Exception {
 			}
 		};
 */
 
-		// MimeMessageHelper
+		/* MimeMessageHelper */
 		MimeMessage msg = javaMailSender.createMimeMessage();
 
 		MimeMessageHelper helper = new MimeMessageHelper(msg, true);
 
-		// 发件人
+		/* 发件人 */
 		helper.setFrom(from);
 
-		// 收件人
+		/* 收件人 */
 		helper.setTo(to);
-		// 抄送
+		/* 抄送 */
 		//helper.setCc(cc);
-		// 密送
+		/* 密送 */
 		//helper.setBcc(bcc);
 
-		// 主题
+		/* 主题 */
 		helper.setSubject(subject);
 
-		// 正文
+		/* 正文 */
 		helper.setText(content, true);
 
+		/* inline */
 /*
-		// inline
 		helper.setText("<img src=\"cid:cid\" alt=\"\" />", true);
 		helper.addInline(
 			"cid",
@@ -72,7 +72,7 @@ public class JavaMailSender {
 		);
 */
 
-		// 附件
+		/* 附件 */
 		for (String item : attachments) {
 			if (item.matches("^(ftp|https?)://.*?")) {
 				UrlResource url = new UrlResource(item);

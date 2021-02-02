@@ -38,7 +38,7 @@ public class HttpClient {
 	public static CloseableHttpClient getClient(Map<String, String> proxy) {
 		HttpClientBuilder builder = HttpClients.custom().setConnectionManager(manager).setConnectionManagerShared(true);
 
-		// proxy
+		/* proxy */
 		if (proxy != null) {
 			builder.setProxy(new HttpHost(proxy.get("host"), Integer.parseInt(proxy.get("port")))); // TODO: ?
 		}
@@ -63,11 +63,11 @@ public class HttpClient {
 
 			HttpRequestBase method = new HttpGet(url);
 
-			// POST
+			/* POST */
 			if (type.equals("POST")) {
 				HttpPost post = new HttpPost(url);
 
-				// data
+				/* data */
 				if (data != null) {
 					List<NameValuePair> params = new ArrayList<>();
 
@@ -81,7 +81,7 @@ public class HttpClient {
 				method = post;
 			}
 
-			// header
+			/* header */
 			if (header != null) {
 				for (Map.Entry<String, String> entry : header.entrySet()) {
 					method.setHeader(entry.getKey(), entry.getValue());
@@ -131,10 +131,10 @@ public class HttpClient {
 		System.out.println("result: " + result);
 
 
-/*
-		// Fluent
+		/* Fluent */
 
-		// GET
+		/* GET */
+/*
 		System.out.println(
 			Request.Get(url)
 				.setHeader("name", "value")
@@ -142,8 +142,10 @@ public class HttpClient {
 				.execute()
 				.returnContent().asString()
 		);
+*/
 
-		// POST
+		/* POST */
+/*
 		System.out.println(
 			Request.Post(url)
 				.bodyForm(Form.form().add("name", "value").build(), Charset.forName("UTF-8"))

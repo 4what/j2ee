@@ -20,14 +20,14 @@ public class Proxy {
 		URLConnection conn;
 
 
-		// System Properties
+		/* System Properties */
 		System.setProperty("http.proxyHost", proxyHost);
 		System.setProperty("http.proxyPort", String.valueOf(proxyPort));
 
 		conn = url.openConnection();
 
 
-		// Proxy class
+		/* Proxy class */
 		SocketAddress address = new InetSocketAddress(proxyHost, proxyPort);
 		java.net.Proxy proxy = new java.net.Proxy(java.net.Proxy.Type.HTTP, address);
 

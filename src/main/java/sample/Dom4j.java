@@ -9,7 +9,7 @@ public class Dom4j {
 
 
 	public static void main(String[] args) throws DocumentException {
-		// parse
+		/* parse */
 		Document document = DocumentHelper.parseText("<root><node id=\"1\">data</node></root>");
 
 		Element root = document.getRootElement();

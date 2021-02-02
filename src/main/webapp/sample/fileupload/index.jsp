@@ -8,7 +8,9 @@
 %>
 
 <html>
-<head><title></title></head>
+<head>
+	<title></title>
+</head>
 <body>
 
 <form action="<%= action %>" method="post" enctype="multipart/form-data">

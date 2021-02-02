@@ -13,8 +13,8 @@ public class Reader {
 		BufferedReader reader = new BufferedReader(new FileReader(new java.io.File(pathname)));
 
 
+		/* char */
 /*
-		// char
 		int character;
 
 		while ((character = reader.read()) != -1) {
@@ -24,7 +24,7 @@ public class Reader {
 */
 
 
-		// line
+		/* line */
 		String line;
 
 		while ((line = reader.readLine()) != null) {
