@@ -1,5 +1,16 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 
-<%@ taglib prefix="tag" tagdir="/WEB-INF/tags" %>
+<%--
+	Tag File Location:
+		/WEB-INF/
+			lib/
+			tags/
+--%>
+<%@ taglib prefix="x" tagdir="/WEB-INF/tags" %>
 
-<tag:name attr="true">Text</tag:name>
+<x:hello hidden="false">Text</x:hello>
+
+
+<%@ taglib prefix="hello" uri="/WEB-INF/tld/hello.tld" %>
+
+<hello:action hidden="false">Text</hello:action>

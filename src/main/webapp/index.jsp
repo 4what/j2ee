@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<%@ taglib prefix="func" uri="/WEB-INF/tld/functions.tld" %>
+<%@ taglib prefix="util" uri="/WEB-INF/tld/util.tld" %>
 
 <%@ page import="java.util.Map" %>
 
@@ -29,20 +29,20 @@
 %>
 
 
-<h2>func:encode</h2>
-${func:encode("http://www.example.com:8080/")}
+<h2>util:encode</h2>
+${util:encode("http://www.example.com:8080/")}
 
 
-<h2>func:href</h2>
-${func:href(pageContext.request)}
+<h2>util:href</h2>
+${util:href(pageContext.request)}
 
 
-<h2>func:httpget</h2>
-${func:httpget("http://localhost:8080/")}
+<h2>util:httpget</h2>
+${util:httpget("http://localhost:8080/")}
 
 
-<h2>func:root</h2>
-${func:root(pageContext.request)}
+<h2>util:root</h2>
+${util:root(pageContext.request)}
 
 </body>
 </html>

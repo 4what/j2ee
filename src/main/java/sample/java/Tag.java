@@ -7,15 +7,15 @@ import java.io.IOException;
 import java.io.StringWriter;
 
 public class Tag extends SimpleTagSupport {
-	private boolean attr;
+	private boolean hidden;
 
-	public void setAttr(boolean attr) {
-		this.attr = attr;
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
 	}
 
 	@Override
 	public void doTag() throws JspException, IOException {
-		if (attr) {
+		if (!hidden) {
 			StringWriter sw = new StringWriter();
 
 			getJspBody().invoke(sw);

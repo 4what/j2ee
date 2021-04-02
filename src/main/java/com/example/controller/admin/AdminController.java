@@ -1,6 +1,6 @@
 package com.example.controller.admin;
 
-import $java.util.Functions;
+import $java.Utilities;
 
 import com.example.dao.GenericRepository;
 import com.example.domain.Admin;
@@ -133,7 +133,7 @@ public class AdminController {
 
 		Log log = new Log();
 		log.setAdminId(securityService.getCurrentUser().getAdminId());
-		log.setIp(Functions.ip(request));
+		log.setIp(Utilities.ip(request));
 
 		int id = NumberUtils.toInt(request.getParameter("adminId"));
 
@@ -245,7 +245,7 @@ public class AdminController {
 
 		Log log = new Log();
 		log.setAdminId(securityService.getCurrentUser().getAdminId());
-		log.setIp(Functions.ip(request));
+		log.setIp(Utilities.ip(request));
 
 		String[] ids = request.getParameterValues("id");
 
@@ -296,7 +296,7 @@ public class AdminController {
 
 		Log log = new Log();
 		log.setAdminId(adminId);
-		log.setIp(Functions.ip(request));
+		log.setIp(Utilities.ip(request));
 
 		Admin admin = genericRepository.get(Admin.class, adminId);
 

@@ -1,6 +1,4 @@
-package $java.util;
-
-import $java.HttpClient;
+package $java;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -9,7 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
-public class Functions {
+public class Utilities {
 	/**
 	 * @param request
 	 * @param name

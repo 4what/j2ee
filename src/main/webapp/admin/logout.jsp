@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 
-<%@ page import="$java.util.Functions" %>
+<%@ page import="$java.Utilities" %>
 
 <%@ page import="com.example.dao.GenericRepository" %>
 <%@ page import="com.example.domain.Session" %>
@@ -17,7 +17,7 @@
 
 
 	/* cookie */
-	Cookie cookie = Functions.cookie(request, "_admin_sessionid");
+	Cookie cookie = Utilities.cookie(request, "_admin_sessionid");
 
 	if (cookie == null) {
 		response.sendRedirect(request.getContextPath() + "/admin/login.jsp");

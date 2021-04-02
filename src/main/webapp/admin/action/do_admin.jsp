@@ -2,7 +2,7 @@
 
 <%@ include file="/admin/_auth.jspf" %>
 
-<%@ page import="$java.util.Functions" %>
+<%@ page import="$java.Utilities" %>
 
 <%@ page import="com.example.domain.Log" %>
 
@@ -38,7 +38,7 @@
 	ObjectNode result = mapper.createObjectNode();
 
 	/* ip */
-	String ip = Functions.ip(request);
+	String ip = Utilities.ip(request);
 
 	/* log */
 	Log log = new Log();
