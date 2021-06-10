@@ -22,20 +22,20 @@ public class CommonsFileUploadController {
 	 */
 	@RequestMapping("/upload")
 	@ResponseBody
-	public List<String> upload(HttpServletRequest request, String name, MultipartFile[] file) throws IOException {
+	public List<String> upload(HttpServletRequest request, String name, MultipartFile[] files) throws IOException {
 		List<String> result = new ArrayList<>();
 
 		System.out.println("name: " + name);
 
-		for (MultipartFile item : file) {
-			if (!item.isEmpty()) {
-				String filename = item.getOriginalFilename();
+		for (MultipartFile file : files) {
+			if (!file.isEmpty()) {
+				String filename = file.getOriginalFilename();
 				System.out.println("filename: " + filename);
 
 				String pathname = path + CommonsFileUpload.hash(filename);
 				System.out.println("pathname: " + pathname);
 
-				item.transferTo(new File(request.getServletContext().getRealPath("/") + pathname));
+				file.transferTo(new File(request.getServletContext().getRealPath("/") + pathname));
 
 				result.add(pathname);
 			}
